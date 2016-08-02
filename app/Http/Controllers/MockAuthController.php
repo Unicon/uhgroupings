@@ -11,6 +11,7 @@ class MockAuthController extends Controller
     protected $username = 'ckent';
     protected $password = 'root';
     protected $user = array(
+        "id" => "1",
         "firstName" => "Clark",
         "lastName" => "Kent",
         "username" => "ckent",

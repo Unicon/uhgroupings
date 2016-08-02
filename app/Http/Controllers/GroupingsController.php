@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Faker;
 use File;
 
@@ -172,10 +173,114 @@ class GroupingsController extends Controller {
    * getGroupingsOwned
    * This just returns the whole groupings object since we are not doing real
    * filtering in this mock-up
+   * @param String user id
    * @return JSON $groupings
    */
-  public function getGroupingsOwned() {
-    return response()->json($this->groupings);
+  public function getGroupingsOwned(Request $request, $user) {
+    // return response()->json($this->groupings); // old
+
+    // grab query parameters
+    $query = $request->input('query');
+    $pageNumber = $request->input('page');
+    $pageSize = $request->input('pageSize');
+
+    if($query){
+       return response()->json($this->groupings, 200);
+    } else { // if no search query is passed
+      // if page query params do not exist call with defaults
+      if(!$pageNumber) {
+        $pageNumber = 1;
+      }
+
+      if(!$pageSize) {
+        $pageSize = 2;
+      }
+
+      $offset = ($pageNumber * $pageSize) - $pageSize;
+
+      // slice full array data based on page number and page size
+      $itemsForCurrentPage = array_slice($this->groupings, $offset, $pageSize, true);
+      return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->groupings), $pageSize, $pageNumber);
+    }
   }
 
+  /**
+   * getGroupingsBelongedTo
+   * This just returns the whole groupings object since we are not doing real
+   * filtering in this mock-up
+   * @param Request $request
+   * @param String $id
+   * @return JSON $groupings
+   */
+  public function getGroupingsBelongedTo(Request $request, $user) {
+    // return response()->json($this->groupings); // old
+
+    // grab query parameters
+    $query = $request->input('query');
+    $pageNumber = $request->input('page');
+    $pageSize = $request->input('pageSize');
+
+    if($query){
+       return response()->json($this->groupings, 200);
+    } else { // if no search query is passed
+      // if page query params do not exist call with defaults
+      if(!$pageNumber) {
+        $pageNumber = 1;
+      }
+
+      if(!$pageSize) {
+        $pageSize = 2;
+      }
+
+      $offset = ($pageNumber * $pageSize) - $pageSize;
+
+      // slice full array data based on page number and page size
+      $itemsForCurrentPage = array_slice($this->groupings, $offset, $pageSize, true);
+      return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->groupings), $pageSize, $pageNumber);
+    }
+  }
+
+  public function addMemberToGrouping(Request $request) {
+    if(!$request->input('groupingId') && !$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to grouping
+
+    return response()->json([
+      'groupingId' => $request->input('groupingId'),
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  public function deleteMemberFromGrouping(Request $request) {
+    if(!$request->input('groupingId') && !$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to grouping
+
+    return response()->json([
+      'groupingId' => $request->input('groupingId'),
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  // fall back method on using api that is not supported
+  public function notSupported() {
+    return response()->json([
+      'status' => 405,
+      'developerMessage' => 'Method not allowed.'
+    ], 405);
+  }
 }

@@ -9,7 +9,7 @@ use File;
 
 use Faker;
 
-class UserController extends Controller {
+class AdminController extends Controller {
   protected $faker;
   protected $orgUsers = array();
 
@@ -72,7 +72,7 @@ class UserController extends Controller {
    * @param Request $request
    * @return JSON LengthAwarePaginator $users
    */
-  public function getUsers(Request $request) {
+  public function getAdmins(Request $request) {
     // grab query parameters
     $query = $request->input('query');
     $pageNumber = $request->input('page');
@@ -98,6 +98,40 @@ class UserController extends Controller {
     }
 
     
+  }
+
+  public function addMemberToGrouping(Request $request) {
+    if(!$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to admins
+
+    return response()->json([
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  public function deleteMemberFromGrouping(Request $request) {
+    if(!$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to delete member to admins
+
+    return response()->json([
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
   }
 
   public function showUserById($id) {
