@@ -69,6 +69,8 @@ class UserController extends Controller {
    * If the user is logged in, then the user is retrieved from the session and returned,
    * otherwise an empty JSON object is returned.
    *
+   * GET /api/users
+   *
    * @param Request $request
    * @return JSON LengthAwarePaginator
    */
@@ -102,7 +104,9 @@ class UserController extends Controller {
 
   /**
    * @method showUserById
-   * Returns a single user based on passed user ID  /api/users/{id}
+   * Returns a single user based on passed user ID
+   *
+   * GET /api/users/{id}
    *
    * @param string $id
    * @return JSON single user object
@@ -119,7 +123,6 @@ class UserController extends Controller {
    * @method notSupported
    * Returns an error JSON object. Used for routes that are not supported.
    *
-   * @param Request $request
    * @return JSON 405 error object
    */
   public function notSupported() {

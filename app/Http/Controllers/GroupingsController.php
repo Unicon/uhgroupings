@@ -113,6 +113,8 @@ class GroupingsController extends Controller {
    * performs a pseudo-search and returns the object.  If the "query" value is
    * !zero, then an empty array is returned.
    *
+   * GET /api/groupings?query={query}
+   *
    * @param Request $request
    * @return JSON $grouping || empty array
    */
@@ -131,10 +133,12 @@ class GroupingsController extends Controller {
   }
 
   /**
-   * getGroup
+   * @method getGroup
    * Takes a passed in group id and returns that group from the collection. It
    * also appends some additional data such as users and options prior to
    * returning the data.
+   *
+   * GET /api/groupings/{id}
    *
    * @param $groupId
    * @return JSON $fakeGrouping
@@ -173,10 +177,14 @@ class GroupingsController extends Controller {
    * getGroupingsOwned
    * This just returns the whole groupings object since we are not doing real
    * filtering in this mock-up
-   * @param String user id
-   * @return JSON $groupings
+   *
+   * GET /api/user/{user}/groupings/owned
+   *
+   * @param Request $request
+   * @param String $id User ID
+   * @return JSON LengthAwarePaginator
    */
-  public function getGroupingsOwned(Request $request, $user) {
+  public function getGroupingsOwned(Request $request, $id) {
     // return response()->json($this->groupings); // old
 
     // grab query parameters
@@ -205,14 +213,17 @@ class GroupingsController extends Controller {
   }
 
   /**
-   * getGroupingsBelongedTo
+   * @method getGroupingsBelongedTo
    * This just returns the whole groupings object since we are not doing real
    * filtering in this mock-up
+   *
+   * GET /api/user/{user}/groupings
+   *
    * @param Request $request
-   * @param String $id
-   * @return JSON $groupings
+   * @param String $id User ID
+   * @return JSON LengthAwarePaginator
    */
-  public function getGroupingsBelongedTo(Request $request, $user) {
+  public function getGroupingsBelongedTo(Request $request, $id) {
     // return response()->json($this->groupings); // old
 
     // grab query parameters
@@ -240,6 +251,15 @@ class GroupingsController extends Controller {
     }
   }
 
+  /**
+   * @method addMemberToGrouping
+   * Add member to grouping
+   *
+   * POST /api/groupings/{id}/members
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
   public function addMemberToGrouping(Request $request) {
     if(!$request->input('groupingId') && !$request->input('userId')) {
       return response()->json([
@@ -258,6 +278,15 @@ class GroupingsController extends Controller {
 
   }
 
+  /**
+   * @method deleteMemberFromGrouping
+   * Delete member to grouping
+   *
+   * DELETE /api/groupings/{id}/members
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
   public function deleteMemberFromGrouping(Request $request) {
     if(!$request->input('groupingId') && !$request->input('userId')) {
       return response()->json([
@@ -276,7 +305,13 @@ class GroupingsController extends Controller {
 
   }
 
-  // fall back method on using api that is not supported
+  /**
+   * @method notSupported
+   * Returns an error JSON object. Used for routes that are not supported.
+   *
+   * @param Request $request
+   * @return JSON 405 error object
+   */
   public function notSupported() {
     return response()->json([
       'status' => 405,
