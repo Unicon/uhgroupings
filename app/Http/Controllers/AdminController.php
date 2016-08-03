@@ -47,7 +47,7 @@ class AdminController extends Controller {
 
 
   /**
-   * getUser
+   * @method getUser
    * Returns a static JSON object when the user accesses /api/user
    *
    * If the user is logged in, then the user is retrieved from the session and returned,
@@ -63,14 +63,13 @@ class AdminController extends Controller {
   }
 
   /**
-   * getUsers
-   * Returns a static JSON object containing a list of users the user accesses /api/users
+   * @method getAdmins
+   * Returns a static JSON object containing a list of admins.
    *
-   * If the user is logged in, then the user is retrieved from the session and returned,
-   * otherwise an empty JSON object is returned.
+   * GET /api/admins
    *
    * @param Request $request
-   * @return JSON LengthAwarePaginator $users
+   * @return JSON LengthAwarePaginator
    */
   public function getAdmins(Request $request) {
     // grab query parameters
@@ -100,7 +99,16 @@ class AdminController extends Controller {
     
   }
 
-  public function addMemberToGrouping(Request $request) {
+  /**
+   * @method addAdmin
+   * Add an admin.
+   *
+   * POST /api/admins
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
+  public function addAdmin(Request $request) {
     if(!$request->input('userId')) {
       return response()->json([
         'developerMessage' => "Malformed API request.",
@@ -117,7 +125,16 @@ class AdminController extends Controller {
 
   }
 
-  public function deleteMemberFromGrouping(Request $request) {
+  /**
+   * @method addAdmin
+   * Delete an admin.
+   *
+   * DELETE /api/admins
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
+  public function deleteAdmin(Request $request) {
     if(!$request->input('userId')) {
       return response()->json([
         'developerMessage' => "Malformed API request.",
@@ -134,15 +151,12 @@ class AdminController extends Controller {
 
   }
 
-  public function showUserById($id) {
-    return response()->json(array_filter($this->orgUsers, function($user) use ($id) {
-      if($user['userId'] == $id) {
-        return true;
-      }
-    }));
-  }
-
-  // fall back method on using api that is not supported
+  /**
+   * @method notSupported
+   * Returns an error JSON object. Used for routes that are not supported.
+   *
+   * @return JSON 405 error object
+   */
   public function notSupported() {
     return response()->json([
       'status' => 405,
