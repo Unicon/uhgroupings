@@ -47,7 +47,7 @@ class UserController extends Controller {
 
 
   /**
-   * getUser
+   * @method getUser
    * Returns a static JSON object when the user accesses /api/user
    *
    * If the user is logged in, then the user is retrieved from the session and returned,
@@ -63,14 +63,14 @@ class UserController extends Controller {
   }
 
   /**
-   * getUsers
-   * Returns a static JSON object containing a list of users the user accesses /api/users
+   * @method getUsers
+   * Returns a paginated JSON object containing a list of users the user accesses /api/users
    *
    * If the user is logged in, then the user is retrieved from the session and returned,
    * otherwise an empty JSON object is returned.
    *
    * @param Request $request
-   * @return JSON LengthAwarePaginator $users
+   * @return JSON LengthAwarePaginator
    */
   public function getUsers(Request $request) {
     // grab query parameters
@@ -100,6 +100,13 @@ class UserController extends Controller {
     
   }
 
+  /**
+   * @method showUserById
+   * Returns a single user based on passed user ID  /api/users/{id}
+   *
+   * @param string $id
+   * @return JSON single user object
+   */
   public function showUserById($id) {
     return response()->json(array_filter($this->orgUsers, function($user) use ($id) {
       if($user['userId'] == $id) {
@@ -108,7 +115,13 @@ class UserController extends Controller {
     }));
   }
 
-  // fall back method on using api that is not supported
+  /**
+   * @method notSupported
+   * Returns an error JSON object. Used for routes that are not supported.
+   *
+   * @param Request $request
+   * @return JSON 405 error object
+   */
   public function notSupported() {
     return response()->json([
       'status' => 405,
