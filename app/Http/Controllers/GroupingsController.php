@@ -124,7 +124,10 @@ class GroupingsController extends Controller {
         return response()->json([]);
       }
       else {
-        return $this->groupings;
+        return [
+          'total' => count($this->groupings),
+          'data' => $this->groupings
+        ];
       }
     }
     else {
