@@ -86,7 +86,7 @@ angular.module('routes.grouping.GroupingController', [
             // due to time constraints.
             AuthenticationService.getUser().then(function (user) {
                 GroupingsService.getOwnedGroups(user.username).then(function (groups) {
-                    groupingCtrl.ownedGroups = groups;
+                    groupingCtrl.ownedGroups = groups.data;
                     groupingCtrl.uiState.isLoadingGroupings = false;
                 });
             });

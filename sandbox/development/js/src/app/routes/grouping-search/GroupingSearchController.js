@@ -84,7 +84,7 @@ angular.module('routes.groupingSearch.GroupingSearchViewController', [
                 // Using a timeout to make sure the loading spinner displays
                 // long enough to not just be a flicker.
                 $timeout(function () {
-                    groupingSearchViewCtrl.searchResults = groups;
+                    groupingSearchViewCtrl.searchResults = groups.data;
                     groupingSearchViewCtrl.uiState.isSearching = false;
                     groupingSearchViewCtrl.uiState.hasSearched = true;
                 }, 1000);

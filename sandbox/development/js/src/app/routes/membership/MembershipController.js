@@ -86,7 +86,7 @@ angular.module('routes.membership.MembershipController', [
             // due to time constraints.
             AuthenticationService.getUser().then(function (user) {
                 GroupingsService.getGroupMemberships(user.username).then(function (groups) {
-                    membershipCtrl.groupingMemberships = groups;
+                    membershipCtrl.groupingMemberships = groups.data;
                     membershipCtrl.uiState.isLoadingGroupings = false;
                 });
             });

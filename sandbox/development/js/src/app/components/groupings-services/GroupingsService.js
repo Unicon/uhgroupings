@@ -42,8 +42,8 @@ angular.module('components.groupingsServices.GroupingsService', [
         function transformGroupResponse(response) {
             var groupings = response.data;
 
-            if (angular.isArray(groupings)) {
-                groupings.forEach(transformGrouping);
+            if (angular.isArray(groupings.data)) {
+                groupings.data.forEach(transformGrouping);
             } else {
                 groupings = transformGrouping(groupings);
             }
