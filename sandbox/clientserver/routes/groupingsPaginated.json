@@ -1,0 +1,26 @@
+{
+  "total": 4,
+  "per_page": 2,
+  "current_page": 1,
+  "last_page": 2,
+  "next_page_url": "\/?page=2",
+  "prev_page_url": null,
+  "from": 1,
+  "to": 2,
+  "data": [
+    {
+      "id": "groupings:faculty:facultyEditors",
+      "displayId": "Groupings:Faculty:FacultyEditors",
+      "displayGroup": "Faculty Editors",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae justo eu est porta tempor. Vestibulum ante ipsum primis in faucibus orci luctus.",
+      "status": "active"
+    },
+    {
+      "id": "groupings:faculty:superUsers:facultyAdmin",
+      "displayId": "Groupings:Faculty:SuperUsers:FacultyAdmin",
+      "displayGroup": "Faculty Admin",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae justo eu est porta tempor. Vestibulum ante ipsum primis in faucibus orci luctus.",
+      "status": "active"
+    }
+  ]
+}
