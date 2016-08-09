@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Faker;
 use File;
 
@@ -112,6 +113,8 @@ class GroupingsController extends Controller {
    * performs a pseudo-search and returns the object.  If the "query" value is
    * !zero, then an empty array is returned.
    *
+   * GET /api/groupings?query={query}
+   *
    * @param Request $request
    * @return JSON $grouping || empty array
    */
@@ -121,7 +124,10 @@ class GroupingsController extends Controller {
         return response()->json([]);
       }
       else {
-        return $this->groupings;
+        return [
+          'total' => count($this->groupings),
+          'data' => $this->groupings
+        ];
       }
     }
     else {
@@ -130,10 +136,12 @@ class GroupingsController extends Controller {
   }
 
   /**
-   * getGroup
+   * @method getGroup
    * Takes a passed in group id and returns that group from the collection. It
    * also appends some additional data such as users and options prior to
    * returning the data.
+   *
+   * GET /api/groupings/{id}
    *
    * @param $groupId
    * @return JSON $fakeGrouping
@@ -172,10 +180,145 @@ class GroupingsController extends Controller {
    * getGroupingsOwned
    * This just returns the whole groupings object since we are not doing real
    * filtering in this mock-up
-   * @return JSON $groupings
+   *
+   * GET /api/user/{user}/groupings/owned
+   *
+   * @param Request $request
+   * @param String $id User ID
+   * @return JSON LengthAwarePaginator
    */
-  public function getGroupingsOwned() {
-    return response()->json($this->groupings);
+  public function getGroupingsOwned(Request $request, $id) {
+    // return response()->json($this->groupings); // old
+
+    // grab query parameters
+    $query = $request->input('query');
+    $pageNumber = $request->input('page');
+    $pageSize = $request->input('pageSize');
+
+    if($query){
+       return response()->json($this->groupings, 200);
+    } else { // if no search query is passed
+      // if page query params do not exist call with defaults
+      if(!$pageNumber) {
+        $pageNumber = 1;
+      }
+
+      if(!$pageSize) {
+        $pageSize = 2;
+      }
+
+      $offset = ($pageNumber * $pageSize) - $pageSize;
+
+      // slice full array data based on page number and page size
+      $itemsForCurrentPage = array_slice($this->groupings, $offset, $pageSize, true);
+      return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->groupings), $pageSize, $pageNumber);
+    }
   }
 
+  /**
+   * @method getGroupingsBelongedTo
+   * This just returns the whole groupings object since we are not doing real
+   * filtering in this mock-up
+   *
+   * GET /api/user/{user}/groupings
+   *
+   * @param Request $request
+   * @param String $id User ID
+   * @return JSON LengthAwarePaginator
+   */
+  public function getGroupingsBelongedTo(Request $request, $id) {
+    // return response()->json($this->groupings); // old
+
+    // grab query parameters
+    $query = $request->input('query');
+    $pageNumber = $request->input('page');
+    $pageSize = $request->input('pageSize');
+
+    if($query){
+       return response()->json($this->groupings, 200);
+    } else { // if no search query is passed
+      // if page query params do not exist call with defaults
+      if(!$pageNumber) {
+        $pageNumber = 1;
+      }
+
+      if(!$pageSize) {
+        $pageSize = 2;
+      }
+
+      $offset = ($pageNumber * $pageSize) - $pageSize;
+
+      // slice full array data based on page number and page size
+      $itemsForCurrentPage = array_slice($this->groupings, $offset, $pageSize, true);
+      return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->groupings), $pageSize, $pageNumber);
+    }
+  }
+
+  /**
+   * @method addMemberToGrouping
+   * Add member to grouping
+   *
+   * POST /api/groupings/{id}/members
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
+  public function addMemberToGrouping(Request $request) {
+    if(!$request->input('groupingId') && !$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to grouping
+
+    return response()->json([
+      'groupingId' => $request->input('groupingId'),
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  /**
+   * @method deleteMemberFromGrouping
+   * Delete member to grouping
+   *
+   * DELETE /api/groupings/{id}/members
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
+  public function deleteMemberFromGrouping(Request $request) {
+    if(!$request->input('groupingId') && !$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to grouping
+
+    return response()->json([
+      'groupingId' => $request->input('groupingId'),
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  /**
+   * @method notSupported
+   * Returns an error JSON object. Used for routes that are not supported.
+   *
+   * @param Request $request
+   * @return JSON 405 error object
+   */
+  public function notSupported() {
+    return response()->json([
+      'status' => 405,
+      'developerMessage' => 'Method not allowed.'
+    ], 405);
+  }
 }

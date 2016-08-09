@@ -9,7 +9,7 @@ use File;
 
 use Faker;
 
-class UserController extends Controller {
+class AdminController extends Controller {
   protected $faker;
   protected $orgUsers = array();
 
@@ -63,18 +63,15 @@ class UserController extends Controller {
   }
 
   /**
-   * @method getUsers
-   * Returns a paginated JSON object containing a list of users the user accesses /api/users
+   * @method getAdmins
+   * Returns a static JSON object containing a list of admins.
    *
-   * If the user is logged in, then the user is retrieved from the session and returned,
-   * otherwise an empty JSON object is returned.
-   *
-   * GET /api/users
+   * GET /api/admins
    *
    * @param Request $request
    * @return JSON LengthAwarePaginator
    */
-  public function getUsers(Request $request) {
+  public function getAdmins(Request $request) {
     // grab query parameters
     $query = $request->input('query');
     $pageNumber = $request->input('page');
@@ -103,20 +100,55 @@ class UserController extends Controller {
   }
 
   /**
-   * @method showUserById
-   * Returns a single user based on passed user ID
+   * @method addAdmin
+   * Add an admin.
    *
-   * GET /api/users/{id}
+   * POST /api/admins
    *
-   * @param string $id
-   * @return JSON single user object
+   * @param Request $request
+   * @return JSON $status
    */
-  public function showUserById($id) {
-    return response()->json(array_filter($this->orgUsers, function($user) use ($id) {
-      if($user['userId'] == $id) {
-        return true;
-      }
-    }));
+  public function addAdmin(Request $request) {
+    if(!$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to add member to admins
+
+    return response()->json([
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
+  }
+
+  /**
+   * @method addAdmin
+   * Delete an admin.
+   *
+   * DELETE /api/admins
+   *
+   * @param Request $request
+   * @return JSON $status
+   */
+  public function deleteAdmin(Request $request) {
+    if(!$request->input('userId')) {
+      return response()->json([
+        'developerMessage' => "Malformed API request.",
+        'status' => 400
+      ], 400);
+    }
+
+    // call to delete member to admins
+
+    return response()->json([
+      'userId' => $request->input('userId'),
+      'status' => 200
+    ], 200);
+
   }
 
   /**

@@ -5,7 +5,7 @@
 module.exports = function (environment) {
     'use strict';
 
-    var fakeGroupingsData = require('./groupings.json'),
+    var fakeGroupingsData = require('./groupingsPaginated.json'),
         fakeOrganizationUsers = require('./orgUsers.json');
 
     /**

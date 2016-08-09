@@ -5,7 +5,7 @@
 module.exports = function (environment) {
     'use strict';
 
-    var fakeGroupingsData = require('./groupings.json'),
+    var fakeGroupingsData = require('./groupingsPaginated.json'),
         fakeOrgUsersData = require('./orgUsers.json');
 
     /**
@@ -30,7 +30,7 @@ module.exports = function (environment) {
      */
     environment.express.route('/api/groupings/:groupingId')
         .get(function (req, res, next) {
-            var fakeGrouping = fakeGroupingsData.filter(function (g) {
+            var fakeGrouping = fakeGroupingsData.data.filter(function (g) {
                 return g.id === req.params.groupingId;
             }).slice()[0];
 
