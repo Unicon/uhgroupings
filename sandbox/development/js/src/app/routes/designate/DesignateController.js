@@ -1,6 +1,8 @@
 angular.module('routes.designate.DesignateController', [
     'stack.page-loader',
-    'stack.i18n'
+    'stack.i18n',
+    'components.AdminsServices.AdminsService',
+    'components.orgUsersServices.OrgUsersService'
 ])
 
 /**
@@ -15,7 +17,9 @@ angular.module('routes.designate.DesignateController', [
     '$timeout',
     'translate',
     'protect',
-    function ($timeout, translate, protect) {
+    'AdminsService',
+    'OrgUsersService',
+    function ($timeout, translate, protect, AdminsService, OrgUsersService) {
         'use strict';
 
         // Define.
@@ -45,6 +49,9 @@ angular.module('routes.designate.DesignateController', [
          */
         function initialize() {
             var t = $timeout(function () {
+                AdminsService.list().then(function (admins) {
+                    designateCtrl.admins = admins.data;
+                });
                 // Call implementations here. Timeout is needed in order
                 // for all potentially nested directives to execute.
                 $timeout.cancel(t);

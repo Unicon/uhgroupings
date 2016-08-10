@@ -49,7 +49,7 @@ angular.module('components.AdminsServices.AdminsService', [
              * @return {Object} Promise
              */
             addAdmin: function (userId) {
-                var promise = Proxy.addAdmin(userId).then(function (response) {
+                var promise = Proxy.addAdmin({'userId': userId}).then(function (response) {
                     return response.data;
                 });
 
