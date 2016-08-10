@@ -1,0 +1,52 @@
+{
+    "total": 30,
+    "per_page": 5,
+    "current_page": 1,
+    "last_page": 6,
+    "next_page_url": "\/?page=2",
+    "prev_page_url": null,
+    "from": 1,
+    "to": 5,
+    "data": [
+        {
+            "userId": "564110ea9d0dc7f212813a8c",
+            "email": "stokesmontgomery@amril.com",
+            "isActive": true,
+            "firstName": "Winifred",
+            "lastName": "Skinner",
+            "permissionType": "Admin"
+        },
+        {
+            "userId": "564110ea9b7687ef3e1a43cc",
+            "email": "winifredskinner@amril.com",
+            "isActive": false,
+            "firstName": "Geneva",
+            "lastName": "Wiley",
+            "permissionType": "Admin"
+        },
+        {
+            "userId": "564110ea48b77bae5377bb0d",
+            "email": "genevawiley@amril.com",
+            "isActive": false,
+            "firstName": "Bethany",
+            "lastName": "Bryan",
+            "permissionType": "Admin"
+        },
+        {
+            "userId": "564110eac4f7cc47f06daee3",
+            "email": "bethanybryan@amril.com",
+            "isActive": true,
+            "firstName": "Webster",
+            "lastName": "Gallagher",
+            "permissionType": "Approver"
+        },
+        {
+            "userId": "564110ea11503278c3ecbac6",
+            "email": "webstergallagher@amril.com",
+            "isActive": false,
+            "firstName": "Jimenez",
+            "lastName": "Barry",
+            "permissionType": "Admin"
+        }
+    ]
+}

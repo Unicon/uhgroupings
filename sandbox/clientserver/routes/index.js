@@ -17,6 +17,7 @@ module.exports = function (environment) {
         require('./authentication')(environment);
         require('./user')(environment);
         require('./groupings')(environment);
+        require('./admins')(environment);
     }
 
     return environment;
