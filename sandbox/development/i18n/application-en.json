@@ -31,7 +31,7 @@
     "DESIGNATE_ADMINS_TABLE_EMAIL": "Email",
     "DESIGNATE_ADMINS_TABLE_REMOVE_ADMIN": "Remove Admin",
     "DESIGNATE_ADMINS_TABLE_ZERO_STATE": "There are no admins.",
-    
+    "DESIGNATE_ADMINS_LOADING_A11Y": "Loading your admins.",
     
     "GROUPING_HEADER": "Groupings I Own",
 
