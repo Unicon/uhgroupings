@@ -6,7 +6,12 @@
     | organization.
     -->
     <div ng-if="(designateCtrl.user.role === 'owner')">
+        <!--SEARCH-->
+        <uhg-grouping-search></uhg-grouping-search>
+
+        <!--PANEL-->
         <div class="panel panel-default uhg-page">
+            <!--HEADING-->
             <div class="panel-heading uhg-page-header">
                 <h1 class="uhg-page-title" stack-localize="DESIGNATE_HEADER">Designate Admins</h1>
                 <h2 class="uhg-page-subtitle">Lorem Ipsum</h2>
@@ -17,57 +22,43 @@
                     ridiculus mus. 
                 </p>
             </div>
+
+            <!--BODY-->
             <div class="panel-body uhg-page-body">
-                <h3 class="uhg-page-body-title">Recent Activity</h3>
+                <h3 class="uhg-page-body-title">{{ 'DESIGNATE_ADMINS_HEADER' | localize }}</h3>
+                <div class="table-responsive">
+                    <table ng-if="!designateCtrl.uiState.isLoadingAdmins" class="table table-bordered table-hover striped-rows uhg-table-designate">
+                        <thead>
+                            <tr>
+                                <th>{{ 'DESIGNATE_ADMINS_TABLE_FIRST_NAME' | localize }}</th>
+                                <th>{{ 'DESIGNATE_ADMINS_TABLE_LAST_NAME' | localize }}</th>
+                                <th>{{ 'DESIGNATE_ADMINS_TABLE_EMAIL' | localize }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="designateCtrl.admins.length > 0" ng-repeat="admin in designateCtrl.admins">
+                                <td>
+                                    <span class="uhg-first-name">{{ admin.firstName }}</span>
+                                    <a ng-href="#" class="uhg-remove-admin" ng-click="designateCtrl.removeAdmin(admin.userId)" ng-keydown="designateCtrl.removeAdminOnKeyDown($event, admin.userId)">
+                                        <i class="fa fa-minus-circle text-danger" role="presentation">
+                                            <span class="sr-only">{{ 'DESIGNATE_ADMINS_TABLE_REMOVE_ADMIN' | localize }}</span>
+                                        </i>
+                                    </a>
+                                </td>
+                                <td><span>{{ admin.lastName }}</span></td>
+                                <td><span>{{ admin.email }}</span></td>
+                            </tr>
+                            <tr ng-if="designateCtrl.admins.length == 0" class="zero-state">
+                                <td colspan="3">{{ 'DESIGNATE_ADMINS_TABLE_ZERO_STATE' | localize }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="panel panel-default uhg-panel">
-                            <div class="panel-heading uhg-panel-heading">
-                                <h4 class="uhg-panel-title">Nam Lectus Lectus</h4>
-                            </div>
-                            <div class="panel-body uhg-panel-body">
-                                Cras nec varius leo. Nam lectus lectus, vulputate eget nisi quis,
-                                feugiat luctus nunc. Morbi tristique lobortis porta. Fusce mollis
-                                tortor auctor, porttitor massa ut, consequat urna.
-
-                                <div class="uhg-panel-links">
-                                    <a href="#">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-default uhg-panel">
-                            <div class="panel-heading uhg-panel-heading">
-                                <h4 class="uhg-panel-title">Morbi Tristique</h4>
-                            </div>
-                            <div class="panel-body uhg-panel-body">
-                                Cras nec varius leo. Nam lectus lectus, vulputate eget nisi quis,
-                                feugiat luctus nunc. Morbi tristique lobortis porta. Fusce mollis
-                                tortor auctor, porttitor massa ut, consequat urna.
-
-                                <div class="uhg-panel-links">
-                                    <a href="#">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-default uhg-panel">
-                            <div class="panel-heading uhg-panel-heading">
-                                <h4 class="uhg-panel-title">Vulputate Eget</h4>
-                            </div>
-                            <div class="panel-body uhg-panel-body">
-                                Cras nec varius leo. Nam lectus lectus, vulputate eget nisi quis,
-                                feugiat luctus nunc. Morbi tristique lobortis porta. Fusce mollis
-                                tortor auctor, porttitor massa ut, consequat urna.
-
-                                <div class="uhg-panel-links">
-                                    <a href="#">View All</a>
-                                </div>
-                            </div>
-                        </div>
+                    <!--TABLE LOADER-->
+                    <div class="uhg-loader" ng-if="designateCtrl.uiState.isLoadingAdmins">
+                        <i class="fa fa-spinner fa-spin fa-3x" role="presentation">
+                            <span class="sr-only">{{ 'GROUPING_OWNED_LOADING_A11Y' | localize }}</span>
+                        </i>
                     </div>
                 </div>
             </div>
