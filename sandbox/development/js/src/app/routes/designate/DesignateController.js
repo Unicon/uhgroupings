@@ -59,6 +59,13 @@ angular.module('routes.designate.DesignateController', [
          */
         designateCtrl.sortField = '+firstName';
 
+        /**
+         * Property houses a reference to user collection.
+         * This property is updated via search functionality.
+         *
+         * @property designateCtrl.user
+         * @type {Array}
+         */
         designateCtrl.users = [];
 
         /**
@@ -138,6 +145,11 @@ angular.module('routes.designate.DesignateController', [
             }
         };
 
+        /**
+         * Method to handle changes to the user search input.
+         *
+         * @method onChange
+         */
         designateCtrl.onChange = function () {
             if (designateCtrl.userSearchPhrase === '') {
                 designateCtrl.users = [];

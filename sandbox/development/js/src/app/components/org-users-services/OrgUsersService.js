@@ -40,11 +40,13 @@ angular.module('components.orgUsersServices.OrgUsersService', [
             },
 
             /**
-             * Method returns a list of all users in an organization.
+             * Method returns a list of all users in an organization
+             * based on the query parameter.
              *
              * Note: Method does not handle error condition.
              *
-             * @method list
+             * @method query
+             * @param string query
              * @return {Object} Promise
              */
             query: function (query) {

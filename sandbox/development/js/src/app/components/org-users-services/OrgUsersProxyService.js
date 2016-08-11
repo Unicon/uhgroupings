@@ -62,7 +62,7 @@ angular.module('components.orgUsersServices.OrgUsersProxy', [
              *
              * Note: Method does not handle error condition.
              *
-             * @method list
+             * @method query
              * @param string query
              * @return {Object} Promise
              */
