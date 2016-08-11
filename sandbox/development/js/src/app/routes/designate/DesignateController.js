@@ -90,7 +90,6 @@ angular.module('routes.designate.DesignateController', [
          * @param {Object} user
          */
         designateCtrl.removeAdmin = function (user) {
-            console.log('removeAdmin', user.userId);
             designateCtrl.admins = _.reject(designateCtrl.admins, function (admin) {
                 return user.userId === admin.userId;
             });
@@ -120,7 +119,6 @@ angular.module('routes.designate.DesignateController', [
          * @param {Object} user
          */
         designateCtrl.addAdmin = function (user) {
-            console.log('addAdmin', user.userId);
             designateCtrl.users = _.reject(designateCtrl.users, function (obj) {
                 return user.userId === obj.userId;
             });
