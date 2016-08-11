@@ -30,9 +30,13 @@
     "DESIGNATE_ADMINS_TABLE_LAST_NAME": "Last Name",
     "DESIGNATE_ADMINS_TABLE_EMAIL": "Email",
     "DESIGNATE_ADMINS_TABLE_REMOVE_ADMIN": "Remove Admin",
+    "DESIGNATE_ADMINS_TABLE_ADD_ADMIN": "Add Admin",
+    "DESIGNATE_ADMINS_ADD": "Add an Admin",
     "DESIGNATE_ADMINS_TABLE_ZERO_STATE": "There are no admins.",
     "DESIGNATE_ADMINS_LOADING_A11Y": "Loading your admins.",
-    
+    "DESIGNATE_ADMINS_SEARCH_PLACEHOLDER": "Enter a few characters to search users...",
+    "DESIGNATE_ADMINS_SEARCH_LABEL": "Enter a search phrase for searching users.",
+
     "GROUPING_HEADER": "Groupings I Own",
 
     "GROUPING_SEARCH_HEADER": "Groupings Search",

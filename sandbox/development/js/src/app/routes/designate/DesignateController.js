@@ -51,18 +51,20 @@ angular.module('routes.designate.DesignateController', [
          */
         designateCtrl.user = protect;
 
+        designateCtrl.users = [];
+
         /**
          * Method to handle removing an admin.
          *
          * @method removeAdmin
-         * @param string userId
+         * @param {Object} user
          */
-        designateCtrl.removeAdmin = function (userId) {
-            console.log('removeAdmin', userId);
+        designateCtrl.removeAdmin = function (user) {
+            console.log('removeAdmin', user.userId);
             designateCtrl.admins = _.reject(designateCtrl.admins, function (admin) {
-                return userId == admin.userId;
+                return user.userId === admin.userId;
             });
-            AdminsService.removeAdmin(userId).then(function (response) {
+            AdminsService.removeAdmin(user.userId).then(function (response) {
                 console.log(response);
             });
         };
@@ -73,12 +75,50 @@ angular.module('routes.designate.DesignateController', [
          *
          * @method removeAdmin
          * @param {Object} Event Event object
-         * @param string userId
+         * @param {Object} user
          */
         designateCtrl.removeAdminOnKeyDown = function (e, userId) {
             if (e.keyCode === 13) {
                 designateCtrl.removeAdmin(userId);
             }
+        };
+
+        /**
+         * Method to handle removing an admin.
+         *
+         * @method addAdmin
+         * @param {Object} user
+         */
+        designateCtrl.addAdmin = function (user) {
+            console.log('addAdmin', user.userId);
+            designateCtrl.users = _.reject(designateCtrl.users, function (obj) {
+                return user.userId === obj.userId;
+            });
+            designateCtrl.admins.push(user);
+            designateCtrl.userSearchPhrase = '';
+            AdminsService.addAdmin(user.userId).then(function (response) {
+                console.log(response);
+            });
+        };
+
+        /**
+         * Method to handle removing an admin. This handler
+         * is executed when the enter key is detected.
+         *
+         * @method addAdmin
+         * @param {Object} Event Event object
+         * @param {Object} user
+         */
+        designateCtrl.addAdminOnKeyDown = function (e, user) {
+            if (e.keyCode === 13) {
+                designateCtrl.addAdmin(user);
+            }
+        };
+
+        designateCtrl.onChange = function () {
+            OrgUsersService.query(designateCtrl.userSearchPhrase).then(function (data) {
+                designateCtrl.users = data;
+            });
         };
 
         /**
@@ -90,7 +130,6 @@ angular.module('routes.designate.DesignateController', [
         function initialize() {
             var t = $timeout(function () {
                 AdminsService.list().then(function (admins) {
-                    console.log(admins)
                     designateCtrl.admins = admins.data;
                     designateCtrl.uiState.isLoadingAdmins = false;
                 });
