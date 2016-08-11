@@ -51,7 +51,30 @@ angular.module('routes.designate.DesignateController', [
          */
         designateCtrl.user = protect;
 
+        /**
+         * Property to track the sort field for our table of grouping owners.
+         *
+         * @property designateCtrl.sortField
+         * @type {String}
+         */
+        designateCtrl.sortField = '+firstName';
+
         designateCtrl.users = [];
+
+        /**
+         * Method to easily control adjusting the sort of the owners table.
+         *
+         * @method changeSort
+         * @param {String} newSort Field name
+         */
+        designateCtrl.changeSort = function (newSort) {
+            // If current sort minus sign equals new sort, then we're just swapping direction.
+            if (designateCtrl.sortField.substr(1) === newSort) {
+                designateCtrl.sortField = (designateCtrl.sortField[0] === '+' ? '-' : '+') + newSort;
+            } else {
+                designateCtrl.sortField = '+' + newSort;
+            }
+        };
 
         /**
          * Method to handle removing an admin.

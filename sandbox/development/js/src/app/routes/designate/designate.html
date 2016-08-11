@@ -19,13 +19,37 @@
                     <table ng-if="!designateCtrl.uiState.isLoadingAdmins" class="table table-bordered table-hover striped-rows uhg-table-designate">
                         <thead>
                             <tr>
-                                <th>{{ 'DESIGNATE_ADMINS_TABLE_FIRST_NAME' | localize }}</th>
-                                <th>{{ 'DESIGNATE_ADMINS_TABLE_LAST_NAME' | localize }}</th>
-                                <th>{{ 'DESIGNATE_ADMINS_TABLE_EMAIL' | localize }}</th>
+                                <th>
+                                    <a ng-href="#" ng-click="designateCtrl.changeSort('firstName')">
+                                        <span class="sr-only">{{ 'GLOBAL_SORT_BY' | localize }} {{ 'DESIGNATE_ADMINS_TABLE_FIRST_NAME' | localize }}</span>
+                                        <span>{{ 'DESIGNATE_ADMINS_TABLE_FIRST_NAME' | localize }}</span>
+                                        <i class="fa" role="presentation" ng-class="{'fa-caret-up': designateCtrl.sortField === '+firstName', 'fa-caret-down': designateCtrl.sortField === '-firstName'}">
+                                            <span class="sr-only">{{ 'ICON_SORT_BY_A11Y' | localize }}</span>
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-href="#" ng-click="designateCtrl.changeSort('lastName')">
+                                        <span class="sr-only">{{ 'GLOBAL_SORT_BY' | localize }} {{ 'DESIGNATE_ADMINS_TABLE_LAST_NAME' | localize }}</span>
+                                        <span>{{ 'DESIGNATE_ADMINS_TABLE_LAST_NAME' | localize }}</span>
+                                    </a>
+                                    <i class="fa" role="presentation" ng-class="{'fa-caret-up': designateCtrl.sortField === '+lastName', 'fa-caret-down': designateCtrl.sortField === '-lastName'}">
+                                        <span class="sr-only">{{ 'ICON_SORT_BY_A11Y' | localize }}</span>
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="#" ng-click="designateCtrl.changeSort('email')">
+                                        <span class="sr-only">{{ 'GLOBAL_SORT_BY' | localize }} {{ 'DESIGNATE_ADMINS_TABLE_EMAIL' | localize }}</span>
+                                        <span>{{ 'DESIGNATE_ADMINS_TABLE_EMAIL' | localize }}</span>
+                                    </a>
+                                    <i class="fa" role="presentation" ng-class="{'fa-caret-up': designateCtrl.sortField === '+email', 'fa-caret-down': designateCtrl.sortField === '-email'}">
+                                        <span class="sr-only">{{ 'ICON_SORT_BY_A11Y' | localize }}</span>
+                                    </i>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-if="designateCtrl.admins.length > 0" ng-repeat="admin in designateCtrl.admins">
+                            <tr ng-if="designateCtrl.admins.length > 0" ng-repeat="admin in designateCtrl.admins | orderBy:designateCtrl.sortField">
                                 <td>
                                     <span class="uhg-first-name">{{ admin.firstName }}</span>
                                     <a ng-href="#" class="uhg-remove-admin" ng-click="designateCtrl.removeAdmin(admin)" ng-keydown="designateCtrl.removeAdminOnKeyDown($event, admin)">
