@@ -116,9 +116,13 @@ angular.module('routes.designate.DesignateController', [
         };
 
         designateCtrl.onChange = function () {
-            OrgUsersService.query(designateCtrl.userSearchPhrase).then(function (data) {
-                designateCtrl.users = data;
-            });
+            if (designateCtrl.userSearchPhrase === '') {
+                designateCtrl.users = [];
+            } else if (designateCtrl.userSearchPhrase.length > 2) {
+                OrgUsersService.query(designateCtrl.userSearchPhrase).then(function (data) {
+                    designateCtrl.users = data;
+                });
+            }
         };
 
         /**

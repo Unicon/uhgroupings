@@ -48,13 +48,13 @@ angular.module('components.orgUsersServices.OrgUsersService', [
              * @return {Object} Promise
              */
             query: function (query) {
-                var promise = Proxy.list().then(function (response) {
-                    // filter out user list for mock purposes
+                var promise = Proxy.query(query).then(function (response) {
+                    // filter out user list based on query for MOCK PURPOSES
                     var filteredUsers = _.filter(response.data, function (obj) {
                         var user = angular.copy(obj);
                         delete user.userId; // do not include userId as part of search
                         return _.values(user).filter(function (x) {
-                            return typeof x === 'string'; // skip bools
+                            return typeof x === 'string'; // only compare strings to query
                         }).some(function (el) {
                             return el.indexOf(query) > -1;
                         });

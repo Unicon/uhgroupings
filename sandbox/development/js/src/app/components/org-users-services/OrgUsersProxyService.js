@@ -55,6 +55,19 @@ angular.module('components.orgUsersServices.OrgUsersProxy', [
              */
             list: function () {
                 return $http.get(usersEndpoint);
+            },
+
+            /**
+             * Method returns a list of all users in an organization based on query.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method list
+             * @param string query
+             * @return {Object} Promise
+             */
+            query: function (query) {
+                return $http.get(usersEndpoint + '?query=' + query);
             }
         };
 
