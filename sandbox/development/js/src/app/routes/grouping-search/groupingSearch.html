@@ -62,8 +62,8 @@
                     <span class="sr-only">{{ 'GROUPING_SEARCH_BREADCRUMB_GROUPING_SEARCH_A11Y' | localize }}</span>
                     <span>{{ 'GROUPING_SEARCH_BREADCRUMB_GROUPING_SEARCH' | localize }}</span>
                 </a>
-                <i class="fa fa-chevron-right" role="presentation"></i>
-                <a ng-href="#" ng-click="groupingSearchViewCtrl.backToResults()">
+                <i ng-if="groupingSearchViewCtrl.searchPhrase" class="fa fa-chevron-right" role="presentation"></i>
+                <a ng-if="groupingSearchViewCtrl.searchPhrase" ng-href="#" ng-click="groupingSearchViewCtrl.backToResults()">
                     <span class="sr-only">{{ 'GROUPING_SEARCH_BREADCRUMB_TO_RESULTS_A11Y' | localize }}</span>
                     <span>{{ groupingSearchViewCtrl.searchPhrase }}</span>
                 </a>
