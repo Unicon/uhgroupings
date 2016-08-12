@@ -85,11 +85,13 @@ class UserController extends Controller {
     } else { // if no search query is passed
       // if page query params do not exist call with defaults
       if(!$pageNumber) {
-        $pageNumber = 1;
+        //$pageNumber = 1;
+        return response()->json($this->orgUsers, 200);
       }
 
       if(!$pageSize) {
-        $pageSize = 5;
+        //$pageSize = 5;
+        return response()->json($this->orgUsers, 200);
       }
 
       $offset = ($pageNumber * $pageSize) - $pageSize;
