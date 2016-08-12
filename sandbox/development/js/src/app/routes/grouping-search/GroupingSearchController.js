@@ -109,6 +109,7 @@ angular.module('routes.groupingSearch.GroupingSearchViewController', [
          * @param {Object} grouping Grouping to edit
          */
         groupingSearchViewCtrl.editGrouping = function (grouping) {
+            console.log(grouping);
             groupingSearchViewCtrl.selectedGrouping = grouping;
             groupingSearchViewCtrl.uiState.showDrilldown = true;
         };
@@ -142,6 +143,12 @@ angular.module('routes.groupingSearch.GroupingSearchViewController', [
                     // Search screen and clicks the search button.
                     groupingSearchViewCtrl.searchPhrase = $stateParams.searchPhrase;
                     groupingSearchViewCtrl.onSearch(groupingSearchViewCtrl.searchPhrase);
+                }
+
+                if ($stateParams.grouping) {
+                    // Editing of a grouping is executed when passed a grouping object as $stateParams.grouping.
+                    // ie. When in Groupings I Own screen a user clicks the edit button on a grouping.
+                    groupingSearchViewCtrl.editGrouping($stateParams.grouping);
                 }
 
                 $timeout.cancel(t);

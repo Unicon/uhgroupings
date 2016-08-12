@@ -2,6 +2,7 @@ angular.module('routes.grouping.GroupingController', [
     'stack.page-loader',
     'stack.i18n',
     'stack.authentication.AuthenticationService',
+    'stack.location.LocationService',
     'components.groupingsServices.GroupingsService'
 ])
 
@@ -18,8 +19,9 @@ angular.module('routes.grouping.GroupingController', [
     'translate',
     'protect',
     'AuthenticationService',
+    'LocationService',
     'GroupingsService',
-    function ($timeout, translate, protect, AuthenticationService, GroupingsService) {
+    function ($timeout, translate, protect, AuthenticationService, LocationService, GroupingsService) {
         'use strict';
 
         // Define.
@@ -59,6 +61,12 @@ angular.module('routes.grouping.GroupingController', [
          */
         groupingCtrl.editGrouping = function (grouping) {
             console.log('GroupingsOwned:editGrouping', grouping);
+            LocationService.redirect({
+                route: 'grouping-search',
+                params: {
+                    grouping: grouping
+                }
+            });
         };
 
         /**

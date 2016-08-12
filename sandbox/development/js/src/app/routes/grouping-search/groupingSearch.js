@@ -21,7 +21,7 @@ angular.module('routes.groupingSearch', [
                 $stateProvider
                     .state('grouping-search', {
                             url: '/grouping-search',
-                            params: {searchPhrase: null},
+                            params: {searchPhrase: null, grouping: null},
                             templateUrl: 'js/src/app/routes/grouping-search/groupingSearch.html',
                             controller: 'GroupingSearchViewController',
                             controllerAs: 'groupingSearchViewCtrl',
