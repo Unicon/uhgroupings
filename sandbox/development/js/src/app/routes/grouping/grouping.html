@@ -33,23 +33,26 @@
                                 <th>{{ 'GROUPING_OWNED_TABLE_GROUPING_NAME' | localize }}</th>
                                 <th>{{ 'GROUPING_OWNED_TABLE_FOLDER' | localize }}</th>
                                 <th>{{ 'GROUPING_OWNED_TABLE_STATUS' | localize }}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-if="groupingCtrl.ownedGroups.length > 0" ng-repeat="grouping in groupingCtrl.ownedGroups">
                                 <td>
                                     <span class="uhg-group-name">{{ grouping.displayGroup }}</span>
+                                </td>
+                                <td><span>{{ grouping.folder }}</span></td>
+                                <td><span>{{ grouping.status }}</span></td>
+                                <td>
                                     <a ng-href="#" class="uhg-edit-groups" ng-click="groupingCtrl.editGrouping(grouping)" ng-keydown="groupingCtrl.editGroupingOnKeyDown($event, grouping)">
                                         <i class="fa fa-pencil" role="presentation">
                                             <span class="sr-only">{{ 'GROUPING_OWNED_EDIT_A11Y' | localize }}</span>
                                         </i>
                                     </a>
                                 </td>
-                                <td><span>{{ grouping.folder }}</span></td>
-                                <td><span>{{ grouping.status }}</span></td>
                             </tr>
                             <tr ng-if="groupingCtrl.ownedGroups.length == 0" class="zero-state">
-                                <td colspan="3">{{ 'GROUPING_OWNED_TABLE_ZERO_STATE' | localize }}</td>
+                                <td colspan="4">{{ 'GROUPING_OWNED_TABLE_ZERO_STATE' | localize }}</td>
                             </tr>
                         </tbody>
                     </table>
