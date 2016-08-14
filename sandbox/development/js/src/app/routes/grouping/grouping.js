@@ -5,6 +5,7 @@
  * @module routes.grouping
  */
 angular.module('routes.grouping', [
+    'ui.bootstrap.pagination',
     'stack.i18n.TranslationResolver',
     'stack.authentication.ProtectResolver',
     'components.groupingSearch',

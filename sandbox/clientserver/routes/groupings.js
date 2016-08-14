@@ -5,7 +5,9 @@
 module.exports = function (environment) {
     'use strict';
 
-    var fakeGroupingsData = require('./groupingsPaginated.json'),
+    var fakeGroupingsData = require('./groupings.json'),
+        fakeGroupingsPaginated1 = require('./groupingsPaginated.json'),
+        // fakeGroupingsPaginated2 = require('./groupingsPaginated2.json'),
         fakeOrgUsersData = require('./orgUsers.json');
 
     /**
@@ -16,7 +18,7 @@ module.exports = function (environment) {
             if (req.session && req.session.user) {
                 //inspect 'query' param, and if not forcing zero-state return mock data
                 if (req.query.query !== '!zero') {
-                    res.status(200).send(fakeGroupingsData);
+                    res.status(200).send(fakeGroupingsPaginated1);
                 } else {
                     res.status(200).send([]);
                 }
@@ -30,7 +32,7 @@ module.exports = function (environment) {
      */
     environment.express.route('/api/groupings/:groupingId')
         .get(function (req, res, next) {
-            var fakeGrouping = fakeGroupingsData.data.filter(function (g) {
+            var fakeGrouping = fakeGroupingsData.filter(function (g) {
                 return g.id === req.params.groupingId;
             }).slice()[0];
 

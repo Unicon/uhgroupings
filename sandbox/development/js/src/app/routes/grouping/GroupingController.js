@@ -3,7 +3,8 @@ angular.module('routes.grouping.GroupingController', [
     'stack.i18n',
     'stack.authentication.AuthenticationService',
     'stack.location.LocationService',
-    'components.groupingsServices.GroupingsService'
+    'components.groupingsServices.GroupingsService',
+    'stack.pagination.GroupingPagination'
 ])
 
 /**
@@ -21,7 +22,8 @@ angular.module('routes.grouping.GroupingController', [
     'AuthenticationService',
     'LocationService',
     'GroupingsService',
-    function ($timeout, translate, protect, AuthenticationService, LocationService, GroupingsService) {
+    'GROUPING_PAGINATION',
+    function ($timeout, translate, protect, AuthenticationService, LocationService, GroupingsService, GROUPING_PAGINATION) {
         'use strict';
 
         // Define.
@@ -60,10 +62,11 @@ angular.module('routes.grouping.GroupingController', [
          * @param {Object} grouping Grouping object
          */
         groupingCtrl.editGrouping = function (grouping) {
-            console.log('GroupingsOwned:editGrouping', grouping);
+            // console.log('GroupingController', grouping);
             LocationService.redirect({
                 route: 'grouping-search',
                 params: {
+                    searchPhrase: null,
                     grouping: grouping
                 }
             });
@@ -84,6 +87,30 @@ angular.module('routes.grouping.GroupingController', [
         };
 
         /**
+         * Property houses an object for pagination properties.
+         *
+         * @property groupingCtrl.pagination
+         * @type {Object}
+         */
+        groupingCtrl.pagination = {};
+
+        groupingCtrl.setPage = function (pageNumber) {
+            console.log('setPage', pageNumber);
+            groupingCtrl.pagination.currentPage = pageNumber;
+        };
+
+        /**
+         * Method to handle changing pages.
+         *
+         * @method setPage
+         * @param {Object} grouping Grouping object
+         */
+        groupingCtrl.pageChanged = function () {
+            console.log('Page changed to: ' + groupingCtrl.pagination.currentPage);
+            loadOwnedGroups();
+        };
+
+        /**
          * Method executes loading of owned groups.
          *
          * @method loadOwnedGroups
@@ -93,7 +120,10 @@ angular.module('routes.grouping.GroupingController', [
             // Implementation only depicts the happy path. Error handling was not implemented
             // due to time constraints.
             AuthenticationService.getUser().then(function (user) {
-                GroupingsService.getOwnedGroups(user.username).then(function (groups) {
+                GroupingsService.getOwnedGroups(user.username, groupingCtrl.pagination.currentPage).then(function (groups) {
+                    groupingCtrl.pagination.totalItems = groups.total;
+                    groupingCtrl.pagination.currentPage = groups.current_page;
+                    groupingCtrl.pagination.itemsPerPage = GROUPING_PAGINATION.PAGE_SIZE;
                     groupingCtrl.ownedGroups = groups.data;
                     groupingCtrl.uiState.isLoadingGroupings = false;
                 });

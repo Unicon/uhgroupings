@@ -90,8 +90,8 @@ angular.module('components.groupingsServices.GroupingsProxy', [
              * @param {String|Number} userId User identifier who is the owner of groups
              * @return {Object} Promise
              */
-            getOwnedGroups: function (userId) {
-                return $http.get([userEndpoint, userId, 'groupings', 'owned'].join('/'));
+            getOwnedGroups: function (userId, pageNumber, pageSize) {
+                return $http.get([userEndpoint, userId, 'groupings', 'owned'].join('/') + '?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
             },
 
             /**

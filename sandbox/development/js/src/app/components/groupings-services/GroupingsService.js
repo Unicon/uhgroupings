@@ -1,5 +1,6 @@
 angular.module('components.groupingsServices.GroupingsService', [
-    'components.groupingsServices.GroupingsProxy'
+    'components.groupingsServices.GroupingsProxy',
+    'stack.pagination.GroupingPagination'
 ])
 /**
  * The GroupingsService leverages the GroupingsProxyService for server requests. This
@@ -11,7 +12,8 @@ angular.module('components.groupingsServices.GroupingsService', [
  */
 .factory('GroupingsService', [
     'GroupingsProxy',
-    function (Proxy) {
+    'GROUPING_PAGINATION',
+    function (Proxy, GROUPING_PAGINATION) {
         // Define.
         var service;
 
@@ -99,8 +101,10 @@ angular.module('components.groupingsServices.GroupingsService', [
              * @param {String|Number} userId User identifier who is the owner of groups
              * @return {Object} Promise
              */
-            getOwnedGroups: function (userId) {
-                var promise = Proxy.getOwnedGroups(userId).then(transformGroupResponse);
+            getOwnedGroups: function (userId, pageNumber, pageSize) {
+                pageNumber = pageNumber || GROUPING_PAGINATION.PAGE_NUMBER;
+                pageSize = pageSize || GROUPING_PAGINATION.PAGE_SIZE;
+                var promise = Proxy.getOwnedGroups(userId, pageNumber, pageSize).then(transformGroupResponse);
                 return promise;
             },
 
