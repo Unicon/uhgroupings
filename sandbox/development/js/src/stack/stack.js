@@ -12,5 +12,6 @@ angular.module('stack', [
     'stack.location',
     'stack.reveal',
     'stack.authentication',
-    'stack.develop'
+    'stack.develop',
+    'stack.defaults'
 ]);
