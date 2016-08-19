@@ -1,5 +1,6 @@
 angular.module('routes.groupingSearch.BasisGroupContentController', [
-    'stack.i18n'
+    'stack.i18n',
+    'stack.pagination.UserPagination'
 ])
 
 /**
@@ -11,8 +12,10 @@ angular.module('routes.groupingSearch.BasisGroupContentController', [
  * @module routes.groupingSearch.BasisGroupContentController
  */
 .controller('BasisGroupContentController', [
+    '$timeout',
     '$scope',
-    function ($scope) {
+    'USER_PAGINATION',
+    function ($timeout, $scope, USER_PAGINATION) {
         // Define.
         var basisGroupContentController;
 
@@ -41,6 +44,37 @@ angular.module('routes.groupingSearch.BasisGroupContentController', [
         basisGroupContentController.grouping = $scope.groupingEditorCtrl.grouping;
 
         /**
+         * Property houses an object for pagination properties.
+         *
+         * @property basisGroupContentController.pagination
+         * @type {Object}
+         */
+        basisGroupContentController.pagination = {};
+
+        /**
+         * Method slicing basisMembers array into pages.
+         *
+         * @method sliceForPagination
+         * @private
+         */
+        function sliceForPagination() {
+            var offset = (basisGroupContentController.pagination.currentPage * basisGroupContentController.pagination.itemsPerPage) - basisGroupContentController.pagination.itemsPerPage;
+            basisGroupContentController.grouping.basisMembersPaginated = basisGroupContentController.grouping.basisMembers.slice(
+                offset, offset + basisGroupContentController.pagination.itemsPerPage
+            );
+        }
+
+        /**
+         * Method to handle changing pages.
+         *
+         * @method pageChanged
+         */
+        basisGroupContentController.pageChanged = function () {
+            console.log('Page changed to: ' + basisGroupContentController.pagination.currentPage);
+            sliceForPagination();
+        };
+
+        /**
          * Method to easily control adjusting the sort of the owners table.
          *
          * @method changeSort
@@ -54,5 +88,25 @@ angular.module('routes.groupingSearch.BasisGroupContentController', [
                 basisGroupContentController.sortField = '+' + newSort;
             }
         };
+
+        /**
+         * Method executes initialization process.
+         *
+         * @method initialize
+         * @private
+         */
+        function initialize() {
+            var t = $timeout(function () {
+                basisGroupContentController.pagination.totalItems = basisGroupContentController.grouping.basisMembers.length;
+                basisGroupContentController.pagination.itemsPerPage = USER_PAGINATION.PAGE_SIZE;
+                basisGroupContentController.pagination.currentPage = USER_PAGINATION.PAGE_NUMBER;
+
+                sliceForPagination();
+                // Call implementations here. Timeout is needed in order
+                // for all potentially nested directives to execute.
+                $timeout.cancel(t);
+            }, 0);
+        }
+        initialize();
     }
 ]);

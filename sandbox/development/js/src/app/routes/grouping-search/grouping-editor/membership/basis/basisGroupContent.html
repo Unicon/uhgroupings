@@ -36,15 +36,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="basisGroupContentController.grouping.basisMembers.length > 0" ng-repeat="user in basisGroupContentController.grouping.basisMembers | orderBy:basisGroupContentController.sortField">
+                <tr ng-if="basisGroupContentController.grouping.basisMembersPaginated.length > 0" ng-repeat="user in basisGroupContentController.grouping.basisMembersPaginated | orderBy:basisGroupContentController.sortField">
                     <td><span>{{ user.firstName }}</span></td>
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                 </tr>
-                <tr ng-if="basisGroupContentController.grouping.basisMembers.length == 0" class="zero-state">
+                <tr ng-if="basisGroupContentController.grouping.basisMembersPaginated.length == 0" class="zero-state">
                     <td colspan="4"><span>{{ 'BASIS_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
+        <pagination class="pull-right" total-items="basisGroupContentController.pagination.totalItems" ng-model="basisGroupContentController.pagination.currentPage" items-per-page="basisGroupContentController.pagination.itemsPerPage" ng-change="basisGroupContentController.pageChanged()"></pagination>
     </div>
 </div>
