@@ -45,16 +45,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="defaultGroupContentController.grouping.defaultMembers.length > 0" ng-repeat="user in defaultGroupContentController.grouping.defaultMembers | orderBy:defaultGroupContentController.sortField">
+                <tr ng-if="defaultGroupContentController.grouping.defaultMembersPaginated.length > 0" ng-repeat="user in defaultGroupContentController.grouping.defaultMembersPaginated | orderBy:defaultGroupContentController.sortField">
                     <td><span>{{ user.firstName }}</span></td>
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                     <td><span>{{ user.sourceGroup }}</span></td>
                 </tr>
-                <tr ng-if="defaultGroupContentController.grouping.defaultMembers.length == 0" class="zero-state">
+                <tr ng-if="defaultGroupContentController.grouping.defaultMembersPaginated.length == 0" class="zero-state">
                     <td colspan="4"><span>{{ 'DEFAULT_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
+        <pagination class="pull-right" total-items="defaultGroupContentController.pagination.totalItems" ng-model="defaultGroupContentController.pagination.currentPage" items-per-page="defaultGroupContentController.pagination.itemsPerPage" ng-change="defaultGroupContentController.pageChanged()"></pagination>
     </div>
 </div>
