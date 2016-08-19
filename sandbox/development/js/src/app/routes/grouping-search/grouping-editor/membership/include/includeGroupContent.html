@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="includeGroupContentController.grouping.includedMembers.length > 0" ng-repeat="user in includeGroupContentController.grouping.includedMembers | orderBy:includeGroupContentController.sortField">
+                <tr ng-if="includeGroupContentController.grouping.includedMembersPaginated.length > 0" ng-repeat="user in includeGroupContentController.grouping.includedMembersPaginated | orderBy:includeGroupContentController.sortField">
                     <td>
                         <span class="uhg-group-name">{{ user.firstName }}</span>
                         <a ng-href="#" ng-click="includeGroupContentController.excludeUser(user)">
@@ -48,10 +48,11 @@
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                 </tr>
-                <tr ng-if="includeGroupContentController.grouping.includedMembers.length == 0" class="zero-state">
+                <tr ng-if="includeGroupContentController.grouping.includedMembersPaginated.length == 0" class="zero-state">
                     <td colspan="4"><span>{{ 'INCLUDE_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
+        <pagination class="pull-right" total-items="includeGroupContentController.pagination.totalItems" ng-model="includeGroupContentController.pagination.currentPage" items-per-page="includeGroupContentController.pagination.itemsPerPage" ng-change="includeGroupContentController.pageChanged()"></pagination>
     </div>
 </div>
