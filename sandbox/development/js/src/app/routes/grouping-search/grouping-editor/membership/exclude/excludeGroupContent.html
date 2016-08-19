@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="excludeGroupContentController.grouping.excludedMembers.length > 0" ng-repeat="user in excludeGroupContentController.grouping.excludedMembers | orderBy:excludeGroupContentController.sortField">
+                <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length > 0" ng-repeat="user in excludeGroupContentController.grouping.excludedMembersPaginated | orderBy:excludeGroupContentController.sortField">
                     <td>
                         <span class="uhg-group-name">{{ user.firstName }}</span>
                         <a ng-href="#" ng-click="excludeGroupContentController.includeUser(user)">
@@ -48,10 +48,11 @@
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                 </tr>
-                <tr ng-if="excludeGroupContentController.grouping.excludedMembers.length == 0" class="zero-state">
+                <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length == 0" class="zero-state">
                     <td colspan="4"><span>{{ 'EXCLUDE_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
+        <pagination class="pull-right" total-items="excludeGroupContentController.pagination.totalItems" ng-model="excludeGroupContentController.pagination.currentPage" items-per-page="excludeGroupContentController.pagination.itemsPerPage" ng-change="excludeGroupContentController.pageChanged()"></pagination>
     </div>
 </div>

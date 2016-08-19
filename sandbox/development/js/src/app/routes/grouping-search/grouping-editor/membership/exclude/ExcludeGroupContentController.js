@@ -1,5 +1,6 @@
 angular.module('routes.groupingSearch.ExcludeGroupContentController', [
-    'stack.i18n'
+    'stack.i18n',
+    'stack.pagination.UserPagination'
 ])
 
 /**
@@ -11,8 +12,10 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
  * @module routes.groupingSearch.ExcludeGroupContentController
  */
 .controller('ExcludeGroupContentController', [
+    '$timeout',
     '$scope',
-    function ($scope) {
+    'USER_PAGINATION',
+    function ($timeout, $scope, USER_PAGINATION) {
         // Define.
         var excludeGroupContentController;
 
@@ -39,6 +42,37 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
          * @type {Object}
          */
         excludeGroupContentController.grouping = $scope.groupingEditorCtrl.grouping;
+
+        /**
+         * Property houses an object for pagination properties.
+         *
+         * @property excludeGroupContentController.pagination
+         * @type {Object}
+         */
+        excludeGroupContentController.pagination = {};
+
+        /**
+         * Method slicing excludedMembers array into pages.
+         *
+         * @method sliceForPagination
+         * @private
+         */
+        function sliceForPagination() {
+            var offset = (excludeGroupContentController.pagination.currentPage * excludeGroupContentController.pagination.itemsPerPage) - excludeGroupContentController.pagination.itemsPerPage;
+            excludeGroupContentController.grouping.excludedMembersPaginated = excludeGroupContentController.grouping.excludedMembers.slice(
+                offset, offset + excludeGroupContentController.pagination.itemsPerPage
+            );
+        }
+
+        /**
+         * Method to handle changing pages.
+         *
+         * @method pageChanged
+         */
+        excludeGroupContentController.pageChanged = function () {
+            console.log('Page changed to: ' + excludeGroupContentController.pagination.currentPage);
+            sliceForPagination();
+        };
 
         /**
          * Method to easily control adjusting the sort of the owners table.
@@ -80,9 +114,37 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
             if (includedMemberIdx === -1) {
                 excludeGroupContentController.grouping.includedMembers.push(user);
             }
+
             if (includedMemberIdIdx === -1) {
                 excludeGroupContentController.grouping.includedMemberIds.push(user.userId);
             }
+
+            // Update pagination
+            if (includedMemberIdx === -1 || includedMemberIdIdx === -1) {
+                // change total item count when removing member
+                excludeGroupContentController.pagination.totalItems = excludeGroupContentController.pagination.totalItems - 1;
+                sliceForPagination();
+            }
         };
+
+        /**
+         * Method executes initialization process.
+         *
+         * @method initialize
+         * @private
+         */
+        function initialize() {
+            var t = $timeout(function () {
+                excludeGroupContentController.pagination.totalItems = excludeGroupContentController.grouping.excludedMembers.length;
+                excludeGroupContentController.pagination.itemsPerPage = USER_PAGINATION.PAGE_SIZE;
+                excludeGroupContentController.pagination.currentPage = USER_PAGINATION.PAGE_NUMBER;
+
+                sliceForPagination();
+                // Call implementations here. Timeout is needed in order
+                // for all potentially nested directives to execute.
+                $timeout.cancel(t);
+            }, 0);
+        }
+        initialize();
     }
 ]);
