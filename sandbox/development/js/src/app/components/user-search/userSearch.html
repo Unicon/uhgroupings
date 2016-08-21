@@ -1,0 +1,16 @@
+<div class="uhg-user-search">
+    <label for="userSearchPhrase" class="sr-only">{{ 'GROUPING_SEARCH_LABEL' | localize }}</label>
+    <input type="text" id="userSearchPhrase" name="userSearchPhrase"
+           ng-model="userSearchDirCtrl.userSearchPhrase"
+           ng-keyup="userSearchDirCtrl.onKeyUp($event)"
+           ng-change="userSearchDirCtrl.search()"
+           placeholder="{{ 'GROUPING_SEARCH_PLACEHOLDER' | localize }}">
+    <!--<button class="btn btn-primary"
+            ng-disabled="userSearchDirCtrl.userSearchPhrase.length === 0"
+            ng-click="userSearchDirCtrl.search()">
+        <i class="fa fa-search" role="presentation">
+            <span class="sr-only">{{ 'ICON_SEARCH_A11Y' | localize }}</span>
+        </i>
+        <span>{{ 'GROUPING_SEARCH_BUTTON' | localize }}</span>
+    </button>-->
+</div>

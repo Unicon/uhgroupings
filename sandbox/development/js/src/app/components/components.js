@@ -12,5 +12,6 @@ angular.module('components', [
     'components.groupingSearch',
     'components.groupingsServices.GroupingsService',
     'components.orgUsersServices.OrgUsersService',
-    'components.AdminsServices.AdminsService'
+    'components.AdminsServices.AdminsService',
+    'components.userSearch'
 ]);
