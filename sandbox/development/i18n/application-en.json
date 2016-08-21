@@ -76,7 +76,8 @@
     "BASIS_GROUP_TAB_TABLE_LAST_NAME": "Last Name",
     "BASIS_GROUP_TAB_TABLE_EMAIL": "Email",
     "BASIS_GROUP_TAB_TABLE_ZERO_STATE": "This grouping has no basis members.",
-
+    "BASIS_GROUP_TAB_TABLE_ZERO_SEARCH_STATE": "Your search has returned no results.",
+    
     "INCLUDE_GROUP_TAB_DESCRIPTION": "This is the include group, members added that are not in the basis group.",
     "INCLUDE_GROUP_TAB_TABLE_FIRST_NAME": "First Name",
     "INCLUDE_GROUP_TAB_TABLE_LAST_NAME": "Last Name",
