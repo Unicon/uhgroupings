@@ -52,6 +52,22 @@ angular.module('routes.groupingSearch.DefaultGroupContentController', [
         defaultGroupContentController.pagination = {};
 
         /**
+         * Property houses a boolean to track the state of searching.
+         *
+         * @property defaultGroupContentController.isSearching
+         * @type {Bool}
+         */
+        defaultGroupContentController.isSearching = false;
+
+        /**
+         * Property a search phrase for user searching.
+         *
+         * @property defaultGroupContentController.searchPhrase
+         * @type {String}
+         */
+        defaultGroupContentController.searchPhrase = '';
+
+        /**
          * Method slicing defaultMembers array into pages.
          *
          * @method sliceForPagination
@@ -90,6 +106,39 @@ angular.module('routes.groupingSearch.DefaultGroupContentController', [
         };
 
         /**
+         * Method to filter out users in the current view.
+         *
+         * @method userSearch
+         * @param {String} searchPhrase
+         */
+        defaultGroupContentController.userSearch = function (searchPhrase) {
+            console.log('userSearch!', searchPhrase);
+            defaultGroupContentController.searchPhrase = searchPhrase;
+
+            // If search term is at least 3 characters long,
+            // filter out users based on search term.
+            if (defaultGroupContentController.searchPhrase.length > 2) {
+                defaultGroupContentController.isSearching = true;
+                var filteredUsers = _.filter(defaultGroupContentController.grouping.defaultMembers, function (obj) {
+                    var user = angular.copy(obj);
+                    delete user.userId; // do not include userId as part of search
+                    return _.values(user).filter(function (x) {
+                        return typeof x === 'string'; // only compare strings to query
+                    }).some(function (el) {
+                        return el.indexOf(defaultGroupContentController.searchPhrase) > -1;
+                    });
+                });
+                defaultGroupContentController.grouping.defaultMembersPaginated = filteredUsers;
+            }
+
+            // If search term is deleted go back to paginated view.
+            if (defaultGroupContentController.searchPhrase.length === 0) {
+                defaultGroupContentController.isSearching = false;
+                sliceForPagination();
+            }
+        };
+
+        /**
          * Method executes initialization process.
          *
          * @method initialize
@@ -116,6 +165,8 @@ angular.module('routes.groupingSearch.DefaultGroupContentController', [
                     }
                 );
 
+                defaultGroupContentController.isSearching = false;
+                defaultGroupContentController.searchPhrase = '';
                 defaultGroupContentController.pagination.totalItems = defaultGroupContentController.grouping.defaultMembers.length;
                 defaultGroupContentController.pagination.itemsPerPage = USER_PAGINATION.PAGE_SIZE;
                 defaultGroupContentController.pagination.currentPage = USER_PAGINATION.PAGE_NUMBER;

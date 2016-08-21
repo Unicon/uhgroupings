@@ -3,6 +3,7 @@
         {{ 'DEFAULT_GROUP_TAB_DESCRIPTION' | localize }}
     </div>
     <div class="table-responsive">
+        <uhg-user-search on-search="defaultGroupContentController.userSearch(searchPhrase)">></uhg-user-search>
         <table class="table table-bordered table-hover striped-rows uhg-table-groups">
             <thead>
                 <tr>
@@ -51,11 +52,14 @@
                     <td><span>{{ user.email }}</span></td>
                     <td><span>{{ user.sourceGroup }}</span></td>
                 </tr>
-                <tr ng-if="defaultGroupContentController.grouping.defaultMembersPaginated.length == 0" class="zero-state">
+                <tr ng-if="defaultGroupContentController.grouping.defaultMembersPaginated.length == 0 && defaultGroupContentController.isSearching == false" class="zero-state">
                     <td colspan="4"><span>{{ 'DEFAULT_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
+                </tr>
+                <tr ng-if="defaultGroupContentController.grouping.defaultMembersPaginated.length == 0 && defaultGroupContentController.isSearching == true" class="zero-state">
+                    <td colspan="4"><span>Search has returned no results.</span></td>
                 </tr>
             </tbody>
         </table>
-        <pagination class="pull-right" total-items="defaultGroupContentController.pagination.totalItems" ng-model="defaultGroupContentController.pagination.currentPage" items-per-page="defaultGroupContentController.pagination.itemsPerPage" ng-change="defaultGroupContentController.pageChanged()"></pagination>
+        <pagination ng-if="defaultGroupContentController.isSearching == false" class="pull-right" total-items="defaultGroupContentController.pagination.totalItems" ng-model="defaultGroupContentController.pagination.currentPage" items-per-page="defaultGroupContentController.pagination.itemsPerPage" ng-change="defaultGroupContentController.pageChanged()"></pagination>
     </div>
 </div>
