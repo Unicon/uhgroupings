@@ -8413,6 +8413,10 @@ a {
 --------------------------------------*/
   /* Responsive
 --------------------------------------*/
+  /* User Search
+--------------------------------------*/
+  /* Responsive 
+--------------------------------------*/
   /* Routes
  * Import LESS files for routes.
 --------------------------------------*/
@@ -8689,6 +8693,23 @@ a {
     margin-bottom: 0.143em;
   }
   .app .uhg-grouping-search input[name="groupingSearchPhrase"] {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.500em;
+  }
+}
+.app .uhg-user-search input[name="userSearchPhrase"] {
+  width: 100%;
+  padding: 0.429em 0.3em;
+  line-height: 1.286em;
+  margin-bottom: 0.500em;
+}
+@media (max-width: 480px) {
+  .app .uhg-user-search button {
+    width: 100%;
+    margin-bottom: 0.143em;
+  }
+  .app .uhg-user-search input[name="userSearchPhrase"] {
     width: 100%;
     margin-right: 0;
     margin-bottom: 0.500em;
