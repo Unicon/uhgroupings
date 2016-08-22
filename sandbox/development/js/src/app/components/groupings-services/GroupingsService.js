@@ -120,6 +120,40 @@ angular.module('components.groupingsServices.GroupingsService', [
             getGroupMemberships: function (userId) {
                 var promise = Proxy.getGroupMemberships(userId).then(transformGroupResponse);
                 return promise;
+            },
+
+            /**
+             * Method adds a user to a grouping.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method addMemberToGroup
+             * @param groupingId
+             * @param userId
+             * @return {Object} Promise
+             */
+            addMemberToGroup: function (groupingId, userId) {
+                var promise = Proxy.addMemberToGroup(groupingId, userId).then(function (response) {
+                    return response.data;
+                });
+                return promise;
+            },
+
+            /**
+             * Method removes a user from a grouping.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method deleteMemberFromGroup
+             * @param groupingId
+             * @param userId
+             * @return {Object} Promise
+             */
+            deleteMemberFromGroup: function (groupingId, userId) {
+                var promise = Proxy.deleteMemberFromGroup(groupingId, userId).then(function (response) {
+                    return response.data;
+                });
+                return promise;
             }
         };
 

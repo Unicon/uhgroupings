@@ -105,6 +105,44 @@ angular.module('components.groupingsServices.GroupingsProxy', [
              */
             getGroupMemberships: function (userId) {
                 return $http.get([userEndpoint, userId, 'groupings'].join('/'));
+            },
+
+            /**
+             * Method adds a user to a grouping.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method addMemberToGroup
+             * @param groupingId
+             * @param userId
+             * @return {Object} Promise
+             */
+            addMemberToGroup: function (groupingId, userId) {
+                var payload = {
+                    'groupingId': groupingId,
+                    'userId': userId
+                };
+
+                return $http.post([groupingsEndpoint, groupingId, 'members', 'add'].join('/'), payload);
+            },
+
+            /**
+             * Method removes a user from a grouping.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method deleteMemberFromGroup
+             * @param groupingId
+             * @param userId
+             * @return {Object} Promise
+             */
+            deleteMemberFromGroup: function (groupingId, userId) {
+                var payload = {
+                    'groupingId': groupingId,
+                    'userId': userId
+                };
+
+                return $http.post([groupingsEndpoint, groupingId, 'members', 'delete'].join('/'), payload);
             }
         };
 
