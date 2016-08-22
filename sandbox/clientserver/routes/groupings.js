@@ -54,6 +54,24 @@ module.exports = function (environment) {
             }
         });
 
+    environment.express.route('/api/groupings/:groupingId/members/add')
+        .post(function (req, res, next) {
+            if (req.session && req.session.user) {
+                res.status(200).send({'groupingId': req.body.groupingId, 'userId': req.body.userId, 'status': 200});
+            } else {
+                res.status(200).send({});
+            }
+        });
+
+    environment.express.route('/api/groupings/:groupingId/members/delete')
+        .post(function (req, res, next) {
+            console.log();
+            if (req.session && req.session.user) {
+                res.status(200).send({'groupingId': req.body.groupingId, 'userId': req.body.userId, 'status': 200});
+            } else {
+                res.status(200).send({});
+            }
+        });
     return environment;
 };
 

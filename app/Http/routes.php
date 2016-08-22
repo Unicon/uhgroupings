@@ -40,9 +40,9 @@ Route::group(['prefix' => 'api'], function () {
   Route::delete('groupings', 'GroupingsController@notSupported');
 
   Route::get('groupings/{id}/members', 'GroupingsController@notSupported');
-  Route::post('groupings/{id}/members',   'GroupingsController@addMemberToGrouping');
+  Route::post('groupings/{id}/members/add',   'GroupingsController@addMemberToGrouping');
   Route::put('groupings/{id}/members',    'GroupingsController@notSupported');
-  Route::delete('groupings/{id}/members', 'GroupingsController@deleteMemberFromGrouping');
+  Route::post('groupings/{id}/members/delete', 'GroupingsController@deleteMemberFromGrouping');
 
   Route::get('user/{user}/groupings', 'GroupingsController@getGroupingsBelongedTo');
   Route::post('user/{user}/groupings',   'GroupingsController@notSupported');
