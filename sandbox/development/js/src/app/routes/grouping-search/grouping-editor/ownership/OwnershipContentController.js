@@ -1,6 +1,7 @@
 angular.module('routes.groupingSearch.OwnershipContentController', [
     'stack.i18n',
-    'components.orgUsersServices.OrgUsersService'
+    'components.orgUsersServices.OrgUsersService',
+    'stack.pagination.UserPagination'
 ])
 
 /**
@@ -12,9 +13,11 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
  * @module routes.groupingSearch.OwnershipContentController
  */
 .controller('OwnershipContentController', [
+    '$timeout',
     '$scope',
     'OrgUsersService',
-    function ($scope, OrgUsersService) {
+    'USER_PAGINATION',
+    function ($timeout, $scope, OrgUsersService, USER_PAGINATION) {
         // Define.
         var ownershipContentController;
 
@@ -51,6 +54,53 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
         ownershipContentController.grouping = angular.copy($scope.groupingEditorCtrl.grouping);
 
         /**
+         * Property houses an object for pagination properties.
+         *
+         * @property ownershipContentController.pagination
+         * @type {Object}
+         */
+        ownershipContentController.pagination = {};
+
+        /**
+         * Property houses a boolean to track the state of searching.
+         *
+         * @property ownershipContentController.isSearching
+         * @type {Bool}
+         */
+        ownershipContentController.isSearching = false;
+
+        /**
+         * Property a search phrase for user searching.
+         *
+         * @property ownershipContentController.searchPhrase
+         * @type {String}
+         */
+        ownershipContentController.searchPhrase = '';
+
+        /**
+         * Method slicing owners array into pages.
+         *
+         * @method sliceForPagination
+         * @private
+         */
+        function sliceForPagination() {
+            var offset = (ownershipContentController.pagination.currentPage * ownershipContentController.pagination.itemsPerPage) - ownershipContentController.pagination.itemsPerPage;
+            ownershipContentController.grouping.ownersPaginated = ownershipContentController.grouping.owners.slice(
+                offset, offset + ownershipContentController.pagination.itemsPerPage
+            );
+        }
+
+        /**
+         * Method to handle changing pages.
+         *
+         * @method pageChanged
+         */
+        ownershipContentController.pageChanged = function () {
+            console.log('Page changed to: ' + ownershipContentController.pagination.currentPage);
+            sliceForPagination();
+        };
+
+        /**
          * Method to easily control adjusting the sort of the owners table.
          *
          * @method ownershipContentController.changeSort
@@ -62,6 +112,39 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
                 ownershipContentController.sortField = (ownershipContentController.sortField[0] === '+' ? '-' : '+') + newSort;
             } else {
                 ownershipContentController.sortField = '+' + newSort;
+            }
+        };
+
+        /**
+         * Method to filter out users in the current view.
+         *
+         * @method userSearch
+         * @param {String} searchPhrase
+         */
+        ownershipContentController.userSearch = function (searchPhrase) {
+            console.log('userSearch!', searchPhrase);
+            ownershipContentController.searchPhrase = searchPhrase;
+
+            // If search term is at least 3 characters long,
+            // filter out users based on search term.
+            if (ownershipContentController.searchPhrase.length > 2) {
+                ownershipContentController.isSearching = true;
+                var filteredUsers = _.filter(ownershipContentController.grouping.owners, function (obj) {
+                    var user = angular.copy(obj);
+                    delete user.userId; // do not include userId as part of search
+                    return _.values(user).filter(function (x) {
+                        return typeof x === 'string'; // only compare strings to query
+                    }).some(function (el) {
+                        return el.indexOf(ownershipContentController.searchPhrase) > -1;
+                    });
+                });
+                ownershipContentController.grouping.ownersPaginated = filteredUsers;
+            }
+
+            // If search term is deleted go back to paginated view.
+            if (ownershipContentController.searchPhrase.length === 0) {
+                ownershipContentController.isSearching = false;
+                sliceForPagination();
             }
         };
 
@@ -81,14 +164,26 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
          * @private
          */
         function initialize() {
-            // Populate array of non-owner users.
-            // Only accounts for the happy path and does not address
-            // error conditions.
-            OrgUsersService.list().then(function (users) {
-                ownershipContentController.nonOwnerUsers = users.filter(function (user) {
-                    return ownershipContentController.grouping.ownerMemberIds.indexOf(user.userId) === -1;
+            var t = $timeout(function () {
+                // Populate array of non-owner users.
+                // Only accounts for the happy path and does not address
+                // error conditions.
+                OrgUsersService.list().then(function (users) {
+                    ownershipContentController.nonOwnerUsers = users.filter(function (user) {
+                        return ownershipContentController.grouping.ownerMemberIds.indexOf(user.userId) === -1;
+                    });
                 });
-            });
+                ownershipContentController.isSearching = false;
+                ownershipContentController.searchPhrase = '';
+                ownershipContentController.pagination.totalItems = ownershipContentController.grouping.owners.length;
+                ownershipContentController.pagination.itemsPerPage = USER_PAGINATION.PAGE_SIZE;
+                ownershipContentController.pagination.currentPage = USER_PAGINATION.PAGE_NUMBER;
+                sliceForPagination();
+                // Call implementations here. Timeout is needed in order
+                // for all potentially nested directives to execute.
+                $timeout.cancel(t);
+                $timeout.cancel(t);
+            }, 0);
         }
         initialize();
     }

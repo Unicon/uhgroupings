@@ -1,5 +1,6 @@
 <div class="uhg-ownership-content" ng-controller="OwnershipContentController as ownershipContentController">
     <div class="table-responsive">
+        <uhg-user-search on-search="ownershipContentController.userSearch(searchPhrase)">></uhg-user-search>
         <table class="table table-bordered table-hover striped-rows uhg-table-groups">
             <thead>
                 <tr>
@@ -42,17 +43,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-if="ownershipContentController.grouping.owners.length > 0" ng-repeat="user in ownershipContentController.grouping.owners | orderBy:ownershipContentController.sortField">
+                <tr ng-if="ownershipContentController.grouping.ownersPaginated.length > 0" ng-repeat="user in ownershipContentController.grouping.ownersPaginated | orderBy:ownershipContentController.sortField">
                     <td><span>{{ user.firstName }}</span></td>
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                     <td><span>{{ user.permissionType }}</span></td>
                 </tr>
-                <tr ng-if="ownershipContentController.grouping.owners.length == 0" class="zero-state">
+                <tr ng-if="ownershipContentController.grouping.ownersPaginated.length == 0 && ownershipContentController.isSearching == false" class="zero-state">
                     <td colspan="4"><span>{{ 'OWNERSHIP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
+                </tr>
+                <tr ng-if="ownershipContentController.grouping.ownersPaginated.length == 0 && ownershipContentController.isSearching == true" class="zero-state">
+                    <td colspan="4"><span>{{ 'OWNERSHIP_GROUP_TAB_TABLE_ZERO_SEARCH_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
+        <pagination ng-if="ownershipContentController.isSearching == false" class="pull-right" total-items="ownershipContentController.pagination.totalItems" ng-model="ownershipContentController.pagination.currentPage" items-per-page="ownershipContentController.pagination.itemsPerPage" ng-change="ownershipContentController.pageChanged()"></pagination>
     </div>
 
     <footer>

@@ -100,6 +100,7 @@
     "OWNERSHIP_TAB_TABLE_PERMISSION_TYPE": "Permission Type",
     "OWNERSHIP_TAB_TABLE_ZERO_STATE": "This grouping has no owners.",
     "OWNERSHIP_TAB_ADD_USER_BUTTON": "Add User",
+    "OWNERSHIP_GROUP_TAB_TABLE_ZERO_SEARCH_STATE": "Your search has returned no results.",
 
     "PREFERENCES_TAB_HEADER": "Options",
     "PREFERENCES_TAB_ADD_REMOVE_HEADER": "Add/Remove",
