@@ -84,7 +84,8 @@
     "INCLUDE_GROUP_TAB_TABLE_EMAIL": "Email",
     "INCLUDE_GROUP_TAB_TABLE_EXCLUDE_USER_A11Y": "Exclude User",
     "INCLUDE_GROUP_TAB_TABLE_ZERO_STATE": "This grouping has no included members.",
-    
+    "INCLUDE_GROUP_TAB_TABLE_ZERO_SEARCH_STATE": "Your search has returned no results.",
+
     "EXCLUDE_GROUP_TAB_DESCRIPTION": "This is the exclude group, members excluded and not part of the default membership group.",
     "EXCLUDE_GROUP_TAB_TABLE_FIRST_NAME": "First Name",
     "EXCLUDE_GROUP_TAB_TABLE_LAST_NAME": "Last Name",
