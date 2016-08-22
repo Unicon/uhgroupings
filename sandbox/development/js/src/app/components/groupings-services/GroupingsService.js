@@ -156,21 +156,33 @@ angular.module('components.groupingsServices.GroupingsService', [
                 return promise;
             },
 
+            /**
+             * Method exports grouping to a CSV file.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method exportToCSV
+             * @param groupingId
+             * @param dataToExport grouping's members
+             */
             exportToCSV: function (groupingId, dataToExport) {
                 var defaultMembers = dataToExport.defaultMembers,
                     basisMembers = dataToExport.basisMembers,
                     excludedMembers = dataToExport.excludedMembers,
                     includedMembers = dataToExport.includedMembers,
-                    payload = {
+                    payloadData = {
                         'defaultMembers': defaultMembers,
                         'basisMembers': basisMembers,
                         'excludedMembers': excludedMembers,
                         'includedMembers': includedMembers
-                    },
-                    promise = Proxy.exportToCSV(groupingId, payload).then(function (response) {
-                    return response.data;
+                    };
+
+                payloadData.excludedMembers = payloadData.excludedMembers.map(function (obj) {
+                    obj.sourceGroup = 'Exclude';
+                    return obj;
                 });
-                return promise;
+
+                Proxy.exportToCSV(groupingId, {'grouping': payloadData});
             }
         };
 

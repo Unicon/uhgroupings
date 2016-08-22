@@ -77,14 +77,12 @@ angular.module('routes.groupingSearch.MembershipContentController', [
         ];
 
         /**
-         * Method to broadcast an export event.
+         * Method to export grouping info to CSV.
          *
          * @method exportAsCsv
          */
         membershipContentCtrl.exportAsCsv = function () {
-            GroupingsService.exportToCSV($scope.groupingEditorCtrl.grouping.id, $scope.groupingEditorCtrl.grouping).then(function (response) {
-                console.log(response);
-            });
+            GroupingsService.exportToCSV($scope.groupingEditorCtrl.grouping.id, $scope.groupingEditorCtrl.grouping);
         };
     }
 ]);

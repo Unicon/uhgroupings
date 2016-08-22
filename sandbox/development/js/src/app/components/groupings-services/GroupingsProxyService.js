@@ -145,8 +145,40 @@ angular.module('components.groupingsServices.GroupingsProxy', [
                 return $http.post([groupingsEndpoint, groupingId, 'members', 'delete'].join('/'), payload);
             },
 
+            /**
+             * Method exports grouping to a CSV file.
+             *
+             * Note: Method does not handle error condition.
+             *
+             * @method exportToCSV
+             * @param groupingId
+             * @param dataToExport grouping's members
+             */
             exportToCSV: function (groupingId, dataToExport) {
-                return $http.post([groupingsEndpoint, groupingId, 'export'].join('/'), {'grouping': dataToExport});
+                // return $http.post([groupingsEndpoint, groupingId, 'export'].join('/'), {'grouping': dataToExport});
+                $http({
+                    url : [groupingsEndpoint, groupingId, 'export'].join('/'),
+                    method : 'POST',
+                    params : {},
+                    data: dataToExport,
+                    headers : {
+                        'Content-type' : 'application/json'
+                    },
+                    responseType : 'arraybuffer'
+                }).success(function (data, status, headers, config) {
+                    // TODO when WS success
+                    var file = new Blob([data], { type : 'application/csv' }),
+                        fileURL = URL.createObjectURL(file),
+                        a         = document.createElement('a');
+
+                    a.href        = fileURL;
+                    a.target      = '_blank';
+                    a.download    = 'yourfilename.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                }).error(function (data, status, headers, config) {
+                    //TODO when WS error
+                });
             }
         };
 

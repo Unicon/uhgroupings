@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Faker;
 use File;
+use Excel;
 
 class GroupingsController extends Controller {
   protected $faker;
@@ -312,16 +313,46 @@ class GroupingsController extends Controller {
    * @method exportToCSV
    * Export groupings data to CSV
    *
-   * GET /api/groupings/export
+   * GET /api/groupings/{id}/export
    *
    * @param Request $request
    * @return CSV File
    */
   public function exportToCSV(Request $request) {
-    return response()->json([
-      'status' => 200,
-      'grouping' => $request->input('grouping')
-    ], 200);
+    $defaultMembers = $request->input('grouping.defaultMembers');
+    $basisMembers = $request->input('grouping.basisMembers');
+    $includedMembers = $request->input('grouping.includedMembers');
+    $excludedMembers = $request->input('grouping.excludedMembers');
+    $membersArray = array($defaultMembers, $basisMembers, $includedMembers, $excludedMembers);
+    $merged = array();
+    if (is_array($membersArray)) {
+      foreach ($membersArray as $key => $value) {
+        if (is_array($value)) {
+          foreach ($value as $keyInner => $valueInner) {
+            $pushArray = [$valueInner['firstName'], $valueInner['lastName'], $valueInner['email'], $valueInner['sourceGroup']];
+            array_push($merged, $pushArray);
+          }
+        } else {
+          array_push($merged, array('error', 'error', 'error'));
+        }
+      }
+    } else {
+      array_push($merged, array('error2', 'error2', 'error2'));
+    }
+    
+    array_unshift($merged, array('First Name', 'Last Name', 'Email', 'Source Group'));
+    Excel::create('testfile', function($excel) use ($merged) {
+        // Set the title
+        $excel->setTitle('no title');
+        $excel->setCreator('no no creator')->setCompany('no company');
+        $excel->setDescription('report file');
+
+        $excel->sheet('sheet1', function($sheet) use ($merged) {
+            $data = $merged;
+            $sheet->fromArray($data);
+        });
+    })->download('csv');
+
   }
 
   /**

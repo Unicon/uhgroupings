@@ -36,7 +36,9 @@ module.exports = function (grunt) {
                     _: true,
                     $: true,
                     jQuery: true,
-                    setTimeout: true
+                    setTimeout: true,
+                    URL: true,
+                    Blob: true
                 },
                 ignores: [
                     ''
