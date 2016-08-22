@@ -1,6 +1,7 @@
 angular.module('routes.groupingSearch.ExcludeGroupContentController', [
     'stack.i18n',
-    'stack.pagination.UserPagination'
+    'stack.pagination.UserPagination',
+    'components.groupingsServices.GroupingsService'
 ])
 
 /**
@@ -15,7 +16,8 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
     '$timeout',
     '$scope',
     'USER_PAGINATION',
-    function ($timeout, $scope, USER_PAGINATION) {
+    'GroupingsService',
+    function ($timeout, $scope, USER_PAGINATION, GroupingsService) {
         // Define.
         var excludeGroupContentController;
 
@@ -174,6 +176,11 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
                 excludeGroupContentController.pagination.totalItems = excludeGroupContentController.pagination.totalItems - 1;
                 sliceForPagination();
             }
+
+            // Exlude a user API call
+            GroupingsService.addMemberToGroup(excludeGroupContentController.grouping.id, user.userId).then(function (response) {
+                console.log('excludeGroupContentController', response);
+            });
         };
 
         /**
