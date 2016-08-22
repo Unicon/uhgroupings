@@ -52,6 +52,22 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
         excludeGroupContentController.pagination = {};
 
         /**
+         * Property houses a boolean to track the state of searching.
+         *
+         * @property excludeGroupContentController.isSearching
+         * @type {Bool}
+         */
+        excludeGroupContentController.isSearching = false;
+
+        /**
+         * Property a search phrase for user searching.
+         *
+         * @property excludeGroupContentController.searchPhrase
+         * @type {String}
+         */
+        excludeGroupContentController.searchPhrase = '';
+
+        /**
          * Method slicing excludedMembers array into pages.
          *
          * @method sliceForPagination
@@ -86,6 +102,39 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
                 excludeGroupContentController.sortField = (excludeGroupContentController.sortField[0] === '+' ? '-' : '+') + newSort;
             } else {
                 excludeGroupContentController.sortField = '+' + newSort;
+            }
+        };
+
+        /**
+         * Method to filter out users in the current view.
+         *
+         * @method userSearch
+         * @param {String} searchPhrase
+         */
+        excludeGroupContentController.userSearch = function (searchPhrase) {
+            console.log('userSearch!', searchPhrase);
+            excludeGroupContentController.searchPhrase = searchPhrase;
+
+            // If search term is at least 3 characters long,
+            // filter out users based on search term.
+            if (excludeGroupContentController.searchPhrase.length > 2) {
+                excludeGroupContentController.isSearching = true;
+                var filteredUsers = _.filter(excludeGroupContentController.grouping.excludedMembers, function (obj) {
+                    var user = angular.copy(obj);
+                    delete user.userId; // do not include userId as part of search
+                    return _.values(user).filter(function (x) {
+                        return typeof x === 'string'; // only compare strings to query
+                    }).some(function (el) {
+                        return el.indexOf(excludeGroupContentController.searchPhrase) > -1;
+                    });
+                });
+                excludeGroupContentController.grouping.excludedMembersPaginated = filteredUsers;
+            }
+
+            // If search term is deleted go back to paginated view.
+            if (excludeGroupContentController.searchPhrase.length === 0) {
+                excludeGroupContentController.isSearching = false;
+                sliceForPagination();
             }
         };
 
@@ -135,6 +184,8 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
          */
         function initialize() {
             var t = $timeout(function () {
+                excludeGroupContentController.isSearching = false;
+                excludeGroupContentController.searchPhrase = '';
                 excludeGroupContentController.pagination.totalItems = excludeGroupContentController.grouping.excludedMembers.length;
                 excludeGroupContentController.pagination.itemsPerPage = USER_PAGINATION.PAGE_SIZE;
                 excludeGroupContentController.pagination.currentPage = USER_PAGINATION.PAGE_NUMBER;

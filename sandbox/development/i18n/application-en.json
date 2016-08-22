@@ -92,7 +92,8 @@
     "EXCLUDE_GROUP_TAB_TABLE_EMAIL": "Email",
     "EXCLUDE_GROUP_TAB_TABLE_INCLUDE_USER_A11Y": "Include User",
     "EXCLUDE_GROUP_TAB_TABLE_ZERO_STATE": "This grouping has no excluded members.",
-    
+    "EXCLUDE_GROUP_TAB_TABLE_ZERO_SEARCH_STATE": "Your search has returned no results.",
+
     "OWNERSHIP_TAB_TABLE_FIRST_NAME": "First Name",
     "OWNERSHIP_TAB_TABLE_LAST_NAME": "Last Name",
     "OWNERSHIP_TAB_TABLE_EMAIL": "Email",

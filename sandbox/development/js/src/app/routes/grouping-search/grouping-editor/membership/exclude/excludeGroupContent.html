@@ -3,6 +3,7 @@
         {{ 'EXCLUDE_GROUP_TAB_DESCRIPTION' | localize }}
     </div>
     <div class="table-responsive">
+        <uhg-user-search on-search="excludeGroupContentController.userSearch(searchPhrase)">></uhg-user-search>
         <table class="table table-bordered table-hover striped-rows uhg-table-groups">
             <thead>
                 <tr>
@@ -48,11 +49,14 @@
                     <td><span>{{ user.lastName }}</span></td>
                     <td><span>{{ user.email }}</span></td>
                 </tr>
-                <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length == 0" class="zero-state">
+                <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length == 0 && excludeGroupContentController.isSearching == true" class="zero-state">
                     <td colspan="4"><span>{{ 'EXCLUDE_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
+                </tr>
+                <tr ng-if="excludeGroupContentController.grouping.defaultMembersPaginated.length == 0 && excludeGroupContentController.isSearching == true" class="zero-state">
+                    <td colspan="4"><span>{{ 'EXCLUDE_GROUP_TAB_TABLE_ZERO_SEARCH_STATE' | localize }}</span></td>
                 </tr>
             </tbody>
         </table>
-        <pagination class="pull-right" total-items="excludeGroupContentController.pagination.totalItems" ng-model="excludeGroupContentController.pagination.currentPage" items-per-page="excludeGroupContentController.pagination.itemsPerPage" ng-change="excludeGroupContentController.pageChanged()"></pagination>
+        <pagination ng-if="excludeGroupContentController.isSearching == false" class="pull-right" total-items="excludeGroupContentController.pagination.totalItems" ng-model="excludeGroupContentController.pagination.currentPage" items-per-page="excludeGroupContentController.pagination.itemsPerPage" ng-change="excludeGroupContentController.pageChanged()"></pagination>
     </div>
 </div>
