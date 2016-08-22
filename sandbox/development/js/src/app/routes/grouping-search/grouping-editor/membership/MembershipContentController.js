@@ -3,7 +3,8 @@ angular.module('routes.groupingSearch.MembershipContentController', [
     'routes.groupingSearch.BasisGroupContentController',
     'routes.groupingSearch.IncludeGroupContentController',
     'routes.groupingSearch.ExcludeGroupContentController',
-    'stack.i18n'
+    'stack.i18n',
+    'components.groupingsServices.GroupingsService'
 ])
 
 /**
@@ -17,7 +18,8 @@ angular.module('routes.groupingSearch.MembershipContentController', [
 .controller('MembershipContentController', [
     '$scope',
     'localizeFilter',
-    function ($scope, localize) {
+    'GroupingsService',
+    function ($scope, localize, GroupingsService) {
         // Define.
         var membershipContentCtrl;
 
@@ -80,7 +82,9 @@ angular.module('routes.groupingSearch.MembershipContentController', [
          * @method exportAsCsv
          */
         membershipContentCtrl.exportAsCsv = function () {
-            $scope.$broadcast('MembershipTab.exportCSV');
+            GroupingsService.exportToCSV($scope.groupingEditorCtrl.grouping.id, $scope.groupingEditorCtrl.grouping).then(function (response) {
+                console.log(response);
+            });
         };
     }
 ]);

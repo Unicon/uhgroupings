@@ -39,6 +39,11 @@ Route::group(['prefix' => 'api'], function () {
   Route::put('groupings',    'GroupingsController@notSupported');
   Route::delete('groupings', 'GroupingsController@notSupported');
 
+  Route::get('groupings/{id}/export', 'GroupingsController@notSupported');
+  Route::post('groupings/{id}/export',   'GroupingsController@exportToCSV');
+  Route::put('groupings/{id}/export',    'GroupingsController@notSupported');
+  Route::delete('groupings/{id}/export', 'GroupingsController@notSupported');
+
   Route::get('groupings/{id}/members', 'GroupingsController@notSupported');
   Route::post('groupings/{id}/members/add',   'GroupingsController@addMemberToGrouping');
   Route::put('groupings/{id}/members',    'GroupingsController@notSupported');

@@ -154,6 +154,23 @@ angular.module('components.groupingsServices.GroupingsService', [
                     return response.data;
                 });
                 return promise;
+            },
+
+            exportToCSV: function (groupingId, dataToExport) {
+                var defaultMembers = dataToExport.defaultMembers,
+                    basisMembers = dataToExport.basisMembers,
+                    excludedMembers = dataToExport.excludedMembers,
+                    includedMembers = dataToExport.includedMembers,
+                    payload = {
+                        'defaultMembers': defaultMembers,
+                        'basisMembers': basisMembers,
+                        'excludedMembers': excludedMembers,
+                        'includedMembers': includedMembers
+                    },
+                    promise = Proxy.exportToCSV(groupingId, payload).then(function (response) {
+                    return response.data;
+                });
+                return promise;
             }
         };
 

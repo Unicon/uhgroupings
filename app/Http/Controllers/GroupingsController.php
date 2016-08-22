@@ -309,6 +309,22 @@ class GroupingsController extends Controller {
   }
 
   /**
+   * @method exportToCSV
+   * Export groupings data to CSV
+   *
+   * GET /api/groupings/export
+   *
+   * @param Request $request
+   * @return CSV File
+   */
+  public function exportToCSV(Request $request) {
+    return response()->json([
+      'status' => 200,
+      'grouping' => $request->input('grouping')
+    ], 200);
+  }
+
+  /**
    * @method notSupported
    * Returns an error JSON object. Used for routes that are not supported.
    *

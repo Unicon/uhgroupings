@@ -143,6 +143,10 @@ angular.module('components.groupingsServices.GroupingsProxy', [
                 };
 
                 return $http.post([groupingsEndpoint, groupingId, 'members', 'delete'].join('/'), payload);
+            },
+
+            exportToCSV: function (groupingId, dataToExport) {
+                return $http.post([groupingsEndpoint, groupingId, 'export'].join('/'), {'grouping': dataToExport});
             }
         };
 
