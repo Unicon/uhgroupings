@@ -15,9 +15,10 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
 .controller('OwnershipContentController', [
     '$timeout',
     '$scope',
+    '$modal',
     'OrgUsersService',
     'USER_PAGINATION',
-    function ($timeout, $scope, OrgUsersService, USER_PAGINATION) {
+    function ($timeout, $scope, $modal, OrgUsersService, USER_PAGINATION) {
         // Define.
         var ownershipContentController;
 
@@ -153,8 +154,29 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
          *
          * @method ownershipContentController.addUser
          */
-        ownershipContentController.addUser = function () {
+        ownershipContentController.addUser = function (size) {
             console.log('Add user.');
+
+            // Open modal
+            var modalInstance = $modal.open({
+                animation: ownershipContentController.animationsEnabled,
+                templateUrl: 'js/src/app/routes/grouping-search/grouping-editor/ownership/addUser.html',
+                controller: 'ModalInstanceController',
+                size: size,
+                resolve: {
+                    owners: function () {
+                        return ownershipContentController.grouping.owners;
+                    }
+                }
+            });
+
+            // Handle confirming user selection from typeahead
+            modalInstance.result.then(function (selectedItem) {
+                ownershipContentController.grouping.owners.push(selectedItem);
+                sliceForPagination();
+            }, function () {
+                console.info('Modal dismissed at: ' + new Date());
+            });
         };
 
         /**
@@ -181,7 +203,6 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
                 sliceForPagination();
                 // Call implementations here. Timeout is needed in order
                 // for all potentially nested directives to execute.
-                $timeout.cancel(t);
                 $timeout.cancel(t);
             }, 0);
         }

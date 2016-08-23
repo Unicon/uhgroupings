@@ -1,0 +1,13 @@
+<div class="uhg-add-user-content">
+    <div class="modal-header">
+            <h3 class="modal-title">Add a User</h3>
+        </div>
+        <div class="modal-body">
+            <input type="text" ng-model="selected" placeholder="Enter a few characters from a first name, last name, or email" typeahead="user for user in searchUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</div>

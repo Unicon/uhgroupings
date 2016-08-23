@@ -7,6 +7,8 @@
  */
 angular.module('routes.groupingSearch', [
         'ui.bootstrap.tabs',
+        'ui.bootstrap.pagination',
+        'ui.bootstrap.modal',
         'stack.i18n.TranslationResolver',
         'stack.authentication.ProtectResolver',
         'routes.groupingSearch.GroupingSearchViewController',

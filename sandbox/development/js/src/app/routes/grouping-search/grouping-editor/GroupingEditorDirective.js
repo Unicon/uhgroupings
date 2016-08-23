@@ -2,6 +2,7 @@ angular.module('routes.groupingSearch.uhgGroupingEditor', [
     'routes.groupingSearch.GroupingEditorController',
     'routes.groupingSearch.MembershipContentController',
     'routes.groupingSearch.OwnershipContentController',
+    'routes.groupingSearch.ModalInstanceController',
     'routes.groupingSearch.PreferencesContentController',
     'components.orgUsersServices.OrgUsersService',
     'stack.i18n.stackLocalize',
