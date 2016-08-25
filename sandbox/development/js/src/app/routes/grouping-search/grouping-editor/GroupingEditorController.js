@@ -77,14 +77,11 @@ angular.module('routes.groupingSearch.GroupingEditorController', [
         function loadGroupingData() {
             // Implementation only depicts the happy path. Error handling was not implemented
             // due to time constraints.
-            console.log('groupingId', groupingEditorCtrl.groupingId);
             GroupingsService.getGroup(groupingEditorCtrl.groupingId).then(function (grouping) {
-                console.log('GroupingEditorController', grouping);
                 grouping.owners = grouping.ownerMemberIds.map(getUserById);
                 grouping.basisMembers = grouping.basisMemberIds.map(getUserById);
                 grouping.includedMembers = grouping.includedMemberIds.map(getUserById);
                 grouping.excludedMembers = grouping.excludedMemberIds.map(getUserById);
-                console.log('GroupingEditorController2', grouping);
                 groupingEditorCtrl.grouping = grouping;
 
                 // Timeout renders loading spinner as more than a quick flicker.
