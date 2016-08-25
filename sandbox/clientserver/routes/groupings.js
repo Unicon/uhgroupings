@@ -18,7 +18,7 @@ module.exports = function (environment) {
             if (req.session && req.session.user) {
                 //inspect 'query' param, and if not forcing zero-state return mock data
                 if (req.query.query !== '!zero') {
-                    res.status(200).send(fakeGroupingsPaginated1);
+                    res.status(200).send({'data': fakeGroupingsData, 'total': fakeGroupingsData.length});
                 } else {
                     res.status(200).send([]);
                 }
