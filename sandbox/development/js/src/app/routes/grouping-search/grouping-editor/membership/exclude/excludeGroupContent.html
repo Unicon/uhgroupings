@@ -34,20 +34,21 @@
                             <span class="sr-only">{{ 'ICON_SORT_BY_A11Y' | localize }}</span>
                         </i>
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length > 0" ng-repeat="user in excludeGroupContentController.grouping.excludedMembersPaginated | orderBy:excludeGroupContentController.sortField">
+                    <td><span class="uhg-group-name">{{ user.firstName }}</span></td>
+                    <td><span>{{ user.lastName }}</span></td>
+                    <td><span>{{ user.email }}</span></td>
                     <td>
-                        <span class="uhg-group-name">{{ user.firstName }}</span>
                         <a ng-href="#" ng-click="excludeGroupContentController.includeUser(user)">
                             <i class="fa fa-plus-circle text-success" role="presentation">
                                 <span class="sr-only">{{ 'EXCLUDE_GROUP_TAB_TABLE_INCLUDE_USER_A11Y' | localize }}</span>
                             </i>
                         </a>
                     </td>
-                    <td><span>{{ user.lastName }}</span></td>
-                    <td><span>{{ user.email }}</span></td>
                 </tr>
                 <tr ng-if="excludeGroupContentController.grouping.excludedMembersPaginated.length == 0 && excludeGroupContentController.isSearching == true" class="zero-state">
                     <td colspan="4"><span>{{ 'EXCLUDE_GROUP_TAB_TABLE_ZERO_STATE' | localize }}</span></td>
