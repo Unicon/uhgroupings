@@ -6,7 +6,7 @@ module.exports = function (environment) {
     'use strict';
 
     var fakeGroupingsData = require('./groupings.json'),
-        fakeGroupingsPaginated1 = require('./groupingsPaginated.json'),
+        // fakeGroupingsPaginated1 = require('./groupingsPaginated.json'),
         // fakeGroupingsPaginated2 = require('./groupingsPaginated2.json'),
         fakeOrgUsersData = require('./orgUsers.json');
 

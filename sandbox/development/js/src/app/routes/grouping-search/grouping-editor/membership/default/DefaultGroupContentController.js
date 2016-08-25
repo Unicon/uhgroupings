@@ -112,7 +112,6 @@ angular.module('routes.groupingSearch.DefaultGroupContentController', [
          * @param {String} searchPhrase
          */
         defaultGroupContentController.userSearch = function (searchPhrase) {
-            console.log('userSearch!', searchPhrase);
             defaultGroupContentController.searchPhrase = searchPhrase;
 
             // If search term is at least 3 characters long,

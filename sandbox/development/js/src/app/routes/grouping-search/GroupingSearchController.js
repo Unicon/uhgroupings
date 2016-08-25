@@ -109,7 +109,6 @@ angular.module('routes.groupingSearch.GroupingSearchViewController', [
          * @param {Object} grouping Grouping to edit
          */
         groupingSearchViewCtrl.editGrouping = function (grouping) {
-            console.log('GroupingSearchController', grouping);
             groupingSearchViewCtrl.selectedGrouping = grouping;
             groupingSearchViewCtrl.uiState.showDrilldown = true;
         };

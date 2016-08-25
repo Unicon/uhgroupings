@@ -114,7 +114,6 @@ angular.module('routes.groupingSearch.ExcludeGroupContentController', [
          * @param {String} searchPhrase
          */
         excludeGroupContentController.userSearch = function (searchPhrase) {
-            console.log('userSearch!', searchPhrase);
             excludeGroupContentController.searchPhrase = searchPhrase;
 
             // If search term is at least 3 characters long,

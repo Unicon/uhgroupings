@@ -123,7 +123,6 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
          * @param {String} searchPhrase
          */
         ownershipContentController.userSearch = function (searchPhrase) {
-            console.log('userSearch!', searchPhrase);
             ownershipContentController.searchPhrase = searchPhrase;
 
             // If search term is at least 3 characters long,
@@ -155,8 +154,6 @@ angular.module('routes.groupingSearch.OwnershipContentController', [
          * @method ownershipContentController.addUser
          */
         ownershipContentController.addUser = function (size) {
-            console.log('Add user.');
-
             // Open modal
             var modalInstance = $modal.open({
                 animation: ownershipContentController.animationsEnabled,

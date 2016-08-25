@@ -114,7 +114,6 @@ angular.module('routes.groupingSearch.IncludeGroupContentController', [
          * @param {String} searchPhrase
          */
         includeGroupContentController.userSearch = function (searchPhrase) {
-            console.log('userSearch!', searchPhrase);
             includeGroupContentController.searchPhrase = searchPhrase;
 
             // If search term is at least 3 characters long,
@@ -179,7 +178,7 @@ angular.module('routes.groupingSearch.IncludeGroupContentController', [
 
             // Exlude a user API call
             GroupingsService.deleteMemberFromGroup(includeGroupContentController.grouping.id, user.userId).then(function (response) {
-                console.log('includeController', response);
+                console.log(response);
             });
         };
 

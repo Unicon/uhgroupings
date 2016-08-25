@@ -62,7 +62,6 @@ angular.module('routes.grouping.GroupingController', [
          * @param {Object} grouping Grouping object
          */
         groupingCtrl.editGrouping = function (grouping) {
-            // console.log('GroupingController', grouping);
             LocationService.redirect({
                 route: 'grouping-search',
                 params: {
