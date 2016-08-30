@@ -5,8 +5,8 @@
 module.exports = function (environment) {
     'use strict';
 
-    var fakeGroupingsData = require('./groupingsPaginated.json'),
-        fakeOrganizationUsers = require('./orgUsers.json'),
+    // var fakeGroupingsData = require('./groupingsPaginated.json'),
+    var fakeOrganizationUsers = require('./orgUsers.json'),
         fakeGroupingsPaginated1 = require('./groupingsPaginated.json'),
         fakeGroupingsPaginated2 = require('./groupingsPaginated2.json');
 
@@ -37,7 +37,11 @@ module.exports = function (environment) {
     environment.express.route('/api/user/:userId/groupings')
         .get(function (req, res, next) {
             if (req.session && req.session.user) {
-                res.status(200).send(fakeGroupingsData);
+                if (parseInt(req.query.pageNumber, 10) === 1) {
+                    res.status(200).send(fakeGroupingsPaginated1);
+                } else {
+                    res.status(200).send(fakeGroupingsPaginated2);
+                }
             } else {
                 res.status(401);
             }
