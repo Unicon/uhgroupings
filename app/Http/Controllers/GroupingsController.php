@@ -232,7 +232,7 @@ class GroupingsController extends Controller {
 
     // grab query parameters
     $query = $request->input('query');
-    $pageNumber = $request->input('page');
+    $pageNumber = $request->input('pageNumber');
     $pageSize = $request->input('pageSize');
 
     if($query){
