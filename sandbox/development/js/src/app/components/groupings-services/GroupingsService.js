@@ -99,6 +99,8 @@ angular.module('components.groupingsServices.GroupingsService', [
              *
              * @method getOwnedGroups
              * @param {String|Number} userId User identifier who is the owner of groups
+             * @param {Number} pageNumber
+             * @param {Number} pageSize
              * @return {Object} Promise
              */
             getOwnedGroups: function (userId, pageNumber, pageSize) {
@@ -115,10 +117,14 @@ angular.module('components.groupingsServices.GroupingsService', [
              *
              * @method getGroupMemberships
              * @param {String|Number} userId Id of the user who is member of groups
+             * @param {Number} pageNumber
+             * @param {Number} pageSize
              * @return {Object} Promise
              */
-            getGroupMemberships: function (userId) {
-                var promise = Proxy.getGroupMemberships(userId).then(transformGroupResponse);
+            getGroupMemberships: function (userId, pageNumber, pageSize) {
+                pageNumber = pageNumber || GROUPING_PAGINATION.PAGE_NUMBER;
+                pageSize = pageSize || GROUPING_PAGINATION.PAGE_SIZE;
+                var promise = Proxy.getGroupMemberships(userId, pageNumber, pageSize).then(transformGroupResponse);
                 return promise;
             },
 

@@ -32,26 +32,29 @@
                             <tr>
                                 <th>{{ 'GROUPING_MEMBERSHIP_TABLE_GROUPING_NAME' | localize }}</th>
                                 <th>{{ 'GROUPING_MEMBERSHIP_TABLE_FOLDER' | localize }}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-if="membershipCtrl.groupingMemberships.length > 0" ng-repeat="grouping in membershipCtrl.groupingMemberships">
                                 <td>
                                     <span class="uhg-group-name">{{ grouping.displayGroup }}</span>
+                                </td>
+                                <td><span>{{ grouping.folder }}</span></td>
+                                <td>
                                     <a ng-href="#" class="uhg-edit-groups" ng-click="membershipCtrl.editGrouping(grouping)" ng-keydown="membershipCtrl.editGroupingOnKeyDown($event, grouping)">
                                         <i class="fa fa-pencil" role="presentation">
                                             <span class="sr-only">{{ 'GROUPING_MEMBERSHIP_EDIT_A11Y' | localize }}</span>
                                         </i>
                                     </a>
                                 </td>
-                                <td><span>{{ grouping.folder }}</span></td>
                             </tr>
                             <tr ng-if="membershipCtrl.groupingMemberships.length == 0" class="zero-state">
-                                <td colspan="2">{{ 'GROUPING_MEMBERSHIP_TABLE_ZERO_STATE' | localize }}</td>
+                                <td colspan="3">{{ 'GROUPING_MEMBERSHIP_TABLE_ZERO_STATE' | localize }}</td>
                             </tr>
                         </tbody>
                     </table>
-
+                    <pagination class="pull-right" total-items="membershipCtrl.pagination.totalItems" ng-model="membershipCtrl.pagination.currentPage" items-per-page="membershipCtrl.pagination.itemsPerPage" ng-change="membershipCtrl.pageChanged()"></pagination>
                     <!--TABLE LOADER-->
                     <div class="uhg-loader" ng-if="membershipCtrl.uiState.isLoadingGroupings">
                         <i class="fa fa-spinner fa-spin fa-3x" role="presentation">

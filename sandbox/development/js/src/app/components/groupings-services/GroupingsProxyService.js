@@ -103,8 +103,8 @@ angular.module('components.groupingsServices.GroupingsProxy', [
              * @param {String|Number} userId Id of the user who is member of groups
              * @return {Object} Promise
              */
-            getGroupMemberships: function (userId) {
-                return $http.get([userEndpoint, userId, 'groupings'].join('/'));
+            getGroupMemberships: function (userId, pageNumber, pageSize) {
+                return $http.get([userEndpoint, userId, 'groupings'].join('/') + '?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
             },
 
             /**

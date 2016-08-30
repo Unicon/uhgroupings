@@ -2,7 +2,9 @@ angular.module('routes.membership.MembershipController', [
     'stack.page-loader',
     'stack.i18n',
     'stack.authentication.AuthenticationService',
-    'components.groupingsServices.GroupingsService'
+    'stack.location.LocationService',
+    'components.groupingsServices.GroupingsService',
+    'stack.pagination.GroupingPagination'
 ])
 
 /**
@@ -18,8 +20,10 @@ angular.module('routes.membership.MembershipController', [
     'translate',
     'protect',
     'AuthenticationService',
+    'LocationService',
     'GroupingsService',
-    function ($timeout, translate, protect, AuthenticationService, GroupingsService) {
+    'GROUPING_PAGINATION',
+    function ($timeout, translate, protect, AuthenticationService, LocationService, GroupingsService, GROUPING_PAGINATION) {
         'use strict';
 
         // Define.
@@ -58,7 +62,13 @@ angular.module('routes.membership.MembershipController', [
          * @param {Object} grouping Grouping object
          */
         membershipCtrl.editGrouping = function (grouping) {
-            console.log('GroupingsMembership:editGrouping', grouping);
+            LocationService.redirect({
+                route: 'grouping-search',
+                params: {
+                    searchPhrase: null,
+                    grouping: grouping
+                }
+            });
         };
 
         /**
@@ -76,6 +86,30 @@ angular.module('routes.membership.MembershipController', [
         };
 
         /**
+         * Property houses an object for pagination properties.
+         *
+         * @property membershipCtrl.pagination
+         * @type {Object}
+         */
+        membershipCtrl.pagination = {};
+
+        membershipCtrl.setPage = function (pageNumber) {
+            console.log('setPage', pageNumber);
+            membershipCtrl.pagination.currentPage = pageNumber;
+        };
+
+        /**
+         * Method to handle changing pages.
+         *
+         * @method setPage
+         * @param {Object} grouping Grouping object
+         */
+        membershipCtrl.pageChanged = function () {
+            console.log('Page changed to: ' + membershipCtrl.pagination.currentPage);
+            loadGroupingMemberships();
+        };
+
+        /**
          * Method executes loading of owned groups.
          *
          * @method loadGroupingMemberships
@@ -85,7 +119,10 @@ angular.module('routes.membership.MembershipController', [
             // Implementation only depicts the happy path. Error handling was not implemented
             // due to time constraints.
             AuthenticationService.getUser().then(function (user) {
-                GroupingsService.getGroupMemberships(user.username).then(function (groups) {
+                GroupingsService.getGroupMemberships(user.username, membershipCtrl.pagination.currentPage).then(function (groups) {
+                    membershipCtrl.pagination.totalItems = groups.total;
+                    membershipCtrl.pagination.currentPage = groups.current_page;
+                    membershipCtrl.pagination.itemsPerPage = GROUPING_PAGINATION.PAGE_SIZE;
                     membershipCtrl.groupingMemberships = groups.data;
                     membershipCtrl.uiState.isLoadingGroupings = false;
                 });
