@@ -79,9 +79,9 @@ Route::group(['prefix' => 'api'], function () {
    * Admin API Routes
    */
   Route::get('admins',    'AdminController@getAdmins');
-  Route::post('admins',   'AdminController@addAdmin');
+  Route::post('admins/add',   'AdminController@addAdmin');
   Route::put('admins',    'AdminController@notSupported');
-  Route::delete('admins', 'AdminController@deleteAdmin');
+  Route::post('admins/delete', 'AdminController@deleteAdmin');
 
 });
 

@@ -80,26 +80,34 @@ class UserController extends Controller {
     $pageNumber = $request->input('page');
     $pageSize = $request->input('pageSize');
 
-    if($query){
-       return response()->json($this->orgUsers, 200);
-    } else { // if no search query is passed
-      // if page query params do not exist call with defaults
-      if(!$pageNumber) {
-        //$pageNumber = 1;
-        return response()->json($this->orgUsers, 200);
-      }
+    /**
+    * Current implementation does not require paginated view of users
+    * Return all users as an array
+    */
 
-      if(!$pageSize) {
-        //$pageSize = 5;
-        return response()->json($this->orgUsers, 200);
-      }
+    return response()->json($this->orgUsers, 200);
 
-      $offset = ($pageNumber * $pageSize) - $pageSize;
+    
+    // if($query){
+    //    return response()->json($this->orgUsers, 200);
+    // } else { // if no search query is passed
+    //   // if page query params do not exist call with defaults
+    //   if(!$pageNumber) {
+    //     //$pageNumber = 1;
+    //     return response()->json($this->orgUsers, 200);
+    //   }
 
-      // slice full array data based on page number and page size
-      $itemsForCurrentPage = array_slice($this->orgUsers, $offset, $pageSize, true);
-      return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->orgUsers), $pageSize, $pageNumber);
-    }
+    //   if(!$pageSize) {
+    //     //$pageSize = 5;
+    //     return response()->json($this->orgUsers, 200);
+    //   }
+
+    //   $offset = ($pageNumber * $pageSize) - $pageSize;
+
+    //   // slice full array data based on page number and page size
+    //   $itemsForCurrentPage = array_slice($this->orgUsers, $offset, $pageSize, true);
+    //   return new LengthAwarePaginator(array_values($itemsForCurrentPage), count($this->orgUsers), $pageSize, $pageNumber);
+    // }
 
     
   }

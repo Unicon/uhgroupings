@@ -67,7 +67,7 @@ angular.module('components.AdminsServices.AdminsProxy', [
              * @return {Object} Promise
              */
             addAdmin: function (userId) {
-                return $http.post(adminsEndpoint, userId);
+                return $http.post([adminsEndpoint, 'add'].join('/'), userId);
             },
 
             /**
@@ -80,7 +80,7 @@ angular.module('components.AdminsServices.AdminsProxy', [
              * @return {Object} Promise
              */
             removeAdmin: function (userId) {
-                return $http.delete(adminsEndpoint, userId);
+                return $http.post([adminsEndpoint, 'delete'].join('/'), userId);
             }
         };
 

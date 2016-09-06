@@ -66,7 +66,7 @@ angular.module('components.AdminsServices.AdminsService', [
              * @return {Object} Promise
              */
             removeAdmin: function (userId) {
-                var promise = Proxy.addAdmin({'userId': userId}).then(function (response) {
+                var promise = Proxy.removeAdmin({'userId': userId}).then(function (response) {
                     return response.data;
                 });
 
